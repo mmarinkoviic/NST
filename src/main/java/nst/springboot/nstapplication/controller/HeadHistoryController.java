@@ -52,7 +52,7 @@ public class HeadHistoryController {
     public ResponseEntity<HeadHistoryDto> updateHeadHistory(@PathVariable Long id, @RequestBody HeadHistoryDto headHistoryDto) {
         HeadHistoryDto updatedHeadHistory = service.patchHeadHistory(id, headHistoryDto);
         if (updatedHeadHistory != null) {
-            return ResponseEntity.ok(updatedHeadHistory);
+            return new ResponseEntity<>(updatedHeadHistory, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
