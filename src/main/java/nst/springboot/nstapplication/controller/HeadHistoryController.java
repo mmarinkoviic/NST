@@ -51,11 +51,7 @@ public class HeadHistoryController {
     @PatchMapping("/{id}")
     public ResponseEntity<HeadHistoryDto> updateHeadHistory(@PathVariable Long id, @RequestBody HeadHistoryDto headHistoryDto) {
         HeadHistoryDto updatedHeadHistory = service.patchHeadHistory(id, headHistoryDto);
-        if (updatedHeadHistory != null) {
-            return new ResponseEntity<>(updatedHeadHistory, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return new ResponseEntity<>(updatedHeadHistory, HttpStatus.OK);
     }
 
 //    @GetMapping("/department/{id}/history")
