@@ -31,11 +31,8 @@ public class MemberController {
     @PatchMapping("/{id}")
     public ResponseEntity<MemberDto> updateMember(@PathVariable Long id, @RequestBody Member member) {
         MemberDto updatedMember = memberService.patchUpdateMember(id, member);
-        if (updatedMember != null) {
-            return ResponseEntity.ok(updatedMember);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return new ResponseEntity<>(updatedMember, HttpStatus.OK);
+
     }
     @GetMapping
     public ResponseEntity<List<MemberDto>> getAll() {
@@ -47,10 +44,7 @@ public class MemberController {
         MemberDto member = memberService.findById(id);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
-//    @GetMapping("/department/{id}")
-//    public ResponseEntity<List<MemberDto>> findByDepartmentId(@PathVariable("id") Long id) {
-//        return new ResponseEntity<>(memberService.getAllByDepartmentId(id), HttpStatus.OK) ;
-//    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
         memberService.delete(id);
