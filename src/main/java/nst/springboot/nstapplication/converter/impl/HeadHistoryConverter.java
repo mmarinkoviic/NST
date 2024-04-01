@@ -26,7 +26,7 @@ public class HeadHistoryConverter implements DtoEntityConverter<HeadHistoryDto, 
         return HeadHistoryDto.builder().
                 id(headHistory.getId()).
                 startDate(headHistory.getStartDate()).
-                endDate(headHistory.getEndDate()==null ? null :headHistory.getEndDate()).
+                endDate(headHistory.getEndDate()).
                 department(departmentConverter.toDto(headHistory.getDepartment())).
                 head(memberConverter.toDto(headHistory.getMember())).
                 build();
@@ -37,7 +37,7 @@ public class HeadHistoryConverter implements DtoEntityConverter<HeadHistoryDto, 
         return HeadHistory.builder()
                 .id(Optional.ofNullable(headHistoryDto.getId()).orElse(null))
                 .startDate(headHistoryDto.getStartDate())
-                .endDate(headHistoryDto.getEndDate()==null ? null :headHistoryDto.getEndDate())
+                .endDate(headHistoryDto.getEndDate())
                 .member(memberConverter.toEntity(headHistoryDto.getHead()))
                 .department(departmentConverter.toEntity(headHistoryDto.getDepartment()))
                 .build();

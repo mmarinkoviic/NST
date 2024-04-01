@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,6 +23,13 @@ public class SecretaryHistoryConverterTest {
         private EducationTitleConverter educationTitleConverter;
         private RoleConverter roleConverter;
 
+        private DepartmentDto departmentDto;
+        private Department department;
+        private MemberDto memberDto;
+        private Member member;
+        private SecretaryHistory secretaryHistory;
+        private SecretaryHistoryDto secretaryHistoryDto;
+
         @BeforeEach
         void setUp(){
             departmentConverter = new DepartmentConverter();
@@ -30,19 +39,35 @@ public class SecretaryHistoryConverterTest {
             scientificFieldConverter = new ScientificFieldConverter();
             memberConverter = new MemberConverter(departmentConverter, academicTitleConverter, educationTitleConverter, scientificFieldConverter,roleConverter);
             converter = new SecretaryHistoryConverter(memberConverter,departmentConverter);
-        }
 
-
-
-        @Test
-        @DisplayName("Test converting SecretaryHistory to SecretaryHistoryDto")
-        public void testToDto(){
-            Department department = Department.builder().
+             departmentDto = DepartmentDto.builder().
                     id(1L).
                     name("Katedra za informacione sisteme i tehnologije").
                     shortName("IS").
                     build();
-            Member member = Member.builder()
+             memberDto = MemberDto.builder()
+                    .id(1L)
+                    .firstname("Jelena")
+                    .lastname("Repac")
+                    .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
+                    .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
+                    .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                    .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
+                    .role(RoleDto.builder().name("Default").build())
+                    .build();
+            secretaryHistoryDto = SecretaryHistoryDto.builder()
+                    .member(memberDto)
+                    .department(departmentDto)
+                    .startDate(LocalDate.now().minusYears(1))
+                    .endDate(LocalDate.now().plusYears(2))
+                    .build();
+
+            department = Department.builder().
+                    id(1L).
+                    name("Katedra za informacione sisteme i tehnologije").
+                    shortName("IS").
+                    build();
+            member = Member.builder()
                     .id(1L)
                     .firstname("Jelena")
                     .lastname("Repac")
@@ -52,12 +77,19 @@ public class SecretaryHistoryConverterTest {
                     .scientificField(ScientificField.builder().name("Artificial intelligence").build())
                     .role(Role.builder().name("Default").build())
                     .build();
-            SecretaryHistory secretaryHistory = SecretaryHistory.builder()
+            secretaryHistory = SecretaryHistory.builder()
                     .member(member)
                     .department(department)
                     .startDate(LocalDate.now().minusYears(1))
                     .endDate(LocalDate.now().plusYears(2))
                     .build();
+        }
+
+
+
+        @Test
+        @DisplayName("Test converting SecretaryHistory to SecretaryHistoryDto")
+        public void testToDto(){
 
             SecretaryHistoryDto secretaryHistoryDto= converter.toDto(secretaryHistory);
 
@@ -72,27 +104,6 @@ public class SecretaryHistoryConverterTest {
         @Test
         @DisplayName("Test converting SecretaryHistoryDto to SecretaryHistory entity")
         public void testToEntity(){
-            DepartmentDto department = DepartmentDto.builder().
-                    id(1L).
-                    name("Katedra za informacione sisteme i tehnologije").
-                    shortName("IS").
-                    build();
-            MemberDto member = MemberDto.builder()
-                    .id(1L)
-                    .firstname("Jelena")
-                    .lastname("Repac")
-                    .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
-                    .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
-                    .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
-                    .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
-                    .role(RoleDto.builder().name("Default").build())
-                    .build();
-            SecretaryHistoryDto secretaryHistoryDto = SecretaryHistoryDto.builder()
-                    .member(member)
-                    .department(department)
-                    .startDate(LocalDate.now().minusYears(1))
-                    .endDate(LocalDate.now().plusYears(2))
-                    .build();
 
             SecretaryHistory secretaryHistory= converter.toEntity(secretaryHistoryDto);
 
@@ -103,4 +114,64 @@ public class SecretaryHistoryConverterTest {
             assertEquals(secretaryHistoryDto.getStartDate(), secretaryHistory.getStartDate());
 
         }
+
+    @Test
+    public void testToDtoList() {
+        List<SecretaryHistory> secretaryHistories = new ArrayList<>();
+        secretaryHistories.add(secretaryHistory);
+        secretaryHistories.add(SecretaryHistory.builder().
+                member(Member.builder()
+                        .id(1L)
+                        .firstname("Jovan")
+                        .lastname("Ciric")
+                        .educationTitle(EducationTitle.builder().name("Associate degree").build())
+                        .academicTitle(AcademicTitle.builder().name("Teaching Assistant").build())
+                        .department(Department.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                        .scientificField(ScientificField.builder().name("Artificial intelligence").build())
+                        .role(Role.builder().name("Secretary").build())
+                        .build()).
+                department( Department.builder().
+                        id(1L).
+                        name("Katedra za informacione sisteme i tehnologije").
+                        shortName("IS").
+                        build()).
+                endDate(null).
+                startDate(LocalDate.now().minusYears(2)).
+                build());
+
+
+        List<SecretaryHistoryDto> result = converter.toDtoList(secretaryHistories);
+
+        assertEquals(secretaryHistories.size(), result.size());
+    }
+
+    @Test
+    public void testToEntityList() {
+        List<SecretaryHistoryDto> secretaryHistories = new ArrayList<>();
+        secretaryHistories.add(secretaryHistoryDto);
+        secretaryHistories.add(SecretaryHistoryDto.builder().
+                member(MemberDto.builder()
+                        .id(1L)
+                        .firstname("Jovan")
+                        .lastname("Ciric")
+                        .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
+                        .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
+                        .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                        .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
+                        .role(RoleDto.builder().name("Secretary").build())
+                        .build()).
+                department( DepartmentDto.builder().
+                        id(1L).
+                        name("Katedra za informacione sisteme i tehnologije").
+                        shortName("IS").
+                        build()).
+                endDate(LocalDate.now().plusYears(1)).
+                startDate(LocalDate.now().minusYears(2)).
+                build());
+
+
+        List<SecretaryHistory> result = converter.toEntityList(secretaryHistories);
+
+        assertEquals(secretaryHistories.size(), result.size());
+    }
 }

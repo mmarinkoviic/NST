@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,6 +24,12 @@ public class HeadHistoryConverterTest {
     private DepartmentConverter departmentConverter;
     private EducationTitleConverter educationTitleConverter;
     private RoleConverter roleConverter;
+    private Department department;
+    private Member member;
+    private DepartmentDto departmentDto;
+    private MemberDto memberDto;
+    private HeadHistory headHistory;
+    private HeadHistoryDto headHistoryDto;
 
     @BeforeEach
     void setUp(){
@@ -32,19 +40,13 @@ public class HeadHistoryConverterTest {
         scientificFieldConverter = new ScientificFieldConverter();
         memberConverter = new MemberConverter(departmentConverter, academicTitleConverter, educationTitleConverter, scientificFieldConverter,roleConverter);
         converter = new HeadHistoryConverter(memberConverter,departmentConverter);
-    }
 
-
-
-    @Test
-    @DisplayName("Test converting HeadHistory to HeadHistoryDto entity")
-    public void testToDto(){
-        Department department = Department.builder().
+         department = Department.builder().
                 id(1L).
                 name("Katedra za informacione sisteme i tehnologije").
                 shortName("IS").
                 build();
-        Member member = Member.builder()
+         member = Member.builder()
                 .id(1L)
                 .firstname("Jelena")
                 .lastname("Repac")
@@ -54,13 +56,41 @@ public class HeadHistoryConverterTest {
                 .scientificField(ScientificField.builder().name("Artificial intelligence").build())
                 .role(Role.builder().name("Default").build())
                 .build();
-        HeadHistory headHistory = HeadHistory.builder()
+         headHistory = HeadHistory.builder()
                 .member(member)
                 .department(department)
                 .startDate(LocalDate.now().minusYears(1))
                 .endDate(LocalDate.now().plusYears(2))
                 .build();
 
+        departmentDto = DepartmentDto.builder().
+                id(1L).
+                name("Katedra za informacione sisteme i tehnologije").
+                shortName("IS").
+                build();
+        memberDto = MemberDto.builder()
+                .id(1L)
+                .firstname("Jelena")
+                .lastname("Repac")
+                .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
+                .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
+                .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
+                .role(RoleDto.builder().name("Default").build())
+                .build();
+        headHistoryDto = HeadHistoryDto.builder()
+                .head(memberDto)
+                .department(departmentDto)
+                .startDate(LocalDate.now().minusYears(1))
+                .endDate(LocalDate.now().plusYears(2))
+                .build();
+    }
+
+
+
+    @Test
+    @DisplayName("Test converting HeadHistory to HeadHistoryDto entity")
+    public void testToDto(){
         HeadHistoryDto headHistoryDto= converter.toDto(headHistory);
 
         assertEquals(headHistoryDto.getId(), headHistory.getId());
@@ -74,28 +104,6 @@ public class HeadHistoryConverterTest {
     @Test
     @DisplayName("Test converting HeadHistoryDto to HeadHistory entity")
     public void testToEntity(){
-        DepartmentDto department = DepartmentDto.builder().
-                id(1L).
-                name("Katedra za informacione sisteme i tehnologije").
-                shortName("IS").
-                build();
-        MemberDto member = MemberDto.builder()
-                .id(1L)
-                .firstname("Jelena")
-                .lastname("Repac")
-                .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
-                .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
-                .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
-                .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
-                .role(RoleDto.builder().name("Default").build())
-                .build();
-        HeadHistoryDto headHistoryDto = HeadHistoryDto.builder()
-                .head(member)
-                .department(department)
-                .startDate(LocalDate.now().minusYears(1))
-                .endDate(LocalDate.now().plusYears(2))
-                .build();
-
         HeadHistory headHistory= converter.toEntity(headHistoryDto);
 
         assertEquals(headHistoryDto.getId(), headHistory.getId());
@@ -104,5 +112,65 @@ public class HeadHistoryConverterTest {
         assertEquals(headHistoryDto.getEndDate(), headHistory.getEndDate());
         assertEquals(headHistoryDto.getStartDate(), headHistory.getStartDate());
 
+    }
+
+    @Test
+    public void testToDtoList() {
+        List<HeadHistory> headHistoryList = new ArrayList<>();
+        headHistoryList.add(headHistory);
+        headHistoryList.add(HeadHistory.builder().
+                member(Member.builder()
+                    .id(1L)
+                    .firstname("Jovan")
+                    .lastname("Ciric")
+                    .educationTitle(EducationTitle.builder().name("Associate degree").build())
+                    .academicTitle(AcademicTitle.builder().name("Teaching Assistant").build())
+                    .department(Department.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                    .scientificField(ScientificField.builder().name("Artificial intelligence").build())
+                    .role(Role.builder().name("Secretary").build())
+                    .build()).
+                department( Department.builder().
+                    id(1L).
+                    name("Katedra za informacione sisteme i tehnologije").
+                    shortName("IS").
+                    build()).
+                endDate(null).
+                startDate(LocalDate.now().minusYears(2)).
+                build());
+
+
+        List<HeadHistoryDto> result = converter.toDtoList(headHistoryList);
+
+        assertEquals(headHistoryList.size(), result.size());
+    }
+
+    @Test
+    public void testToEntityList() {
+        List<HeadHistoryDto> headHistoryDtoList = new ArrayList<>();
+        headHistoryDtoList.add(headHistoryDto);
+        headHistoryDtoList.add(HeadHistoryDto.builder().
+                head(MemberDto.builder()
+                        .id(1L)
+                        .firstname("Jovan")
+                        .lastname("Ciric")
+                        .educationTitle(EducationTitleDto.builder().name("Associate degree").build())
+                        .academicTitle(AcademicTitleDto.builder().name("Teaching Assistant").build())
+                        .department(DepartmentDto.builder().name("Katedra za informacione tehnologije").shortName("IS").build())
+                        .scientificField(ScientificFieldDto.builder().name("Artificial intelligence").build())
+                        .role(RoleDto.builder().name("Secretary").build())
+                        .build()).
+                department( DepartmentDto.builder().
+                        id(1L).
+                        name("Katedra za informacione sisteme i tehnologije").
+                        shortName("IS").
+                        build()).
+                endDate(LocalDate.now().plusYears(1)).
+                startDate(LocalDate.now().minusYears(2)).
+                build());
+
+
+        List<HeadHistory> result = converter.toEntityList(headHistoryDtoList);
+
+        assertEquals(headHistoryDtoList.size(), result.size());
     }
 }
