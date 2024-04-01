@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AcademicTitleController.class)
 public class AcademicTitleControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
 
