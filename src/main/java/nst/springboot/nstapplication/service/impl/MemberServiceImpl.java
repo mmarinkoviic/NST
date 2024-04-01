@@ -165,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
     }
     private void checkExistingMemberAndThrowException(Member member, Long roleId, String errorMessage) {
         Role role = new Role();
-        if(roleId==ConstantsCustom.SECRETARY_ROLE_ID) {
+        if(roleId.equals(ConstantsCustom.SECRETARY_ROLE_ID)) {
             Optional<SecretaryHistory> secretaryHistory = secretaryHistoryRepository.findCurrentSecretaryByDepartmentId(member.getDepartment().getId(), LocalDate.now());
             if(secretaryHistory.isPresent()){
                 if(secretaryHistory.get().getStartDate().isBefore(LocalDate.now()) && secretaryHistory.get().getEndDate()==null){
@@ -181,7 +181,7 @@ public class MemberServiceImpl implements MemberService {
             }
 
         }
-        if(roleId==ConstantsCustom.HEAD_ROLE_ID) {
+        if(roleId.equals(ConstantsCustom.HEAD_ROLE_ID)) {
             Optional<HeadHistory> headHistory = headHistoryRepository.findCurrentHeadByDepartmentId(member.getDepartment().getId(), LocalDate.now());
             if(headHistory.isPresent()){
                 if(headHistory.get().getStartDate().isBefore(LocalDate.now()) && headHistory.get().getEndDate()==null){

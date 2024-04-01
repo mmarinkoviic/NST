@@ -74,7 +74,7 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
         if (secretaryHistoryDTO.getDepartment().getId() != null) {
             existingDepartment = departmentRepository.findById(secretaryHistoryDTO.getDepartment().getId());
             if (existingDepartment.isPresent()) {
-                if (secretaryHistoryDTO.getMember().getDepartment().getId() != secretaryHistoryDTO.getDepartment().getId()) {
+                if (!secretaryHistoryDTO.getMember().getDepartment().getId().equals(secretaryHistoryDTO.getDepartment().getId())) {
                     throw new IllegalArgumentException("Member is not in that department! He is in  " + secretaryHistoryDTO.getMember().getDepartment().getName() + ".");
                 }
                 secretaryHistoryDTO.setDepartment(departmentConverter.toDto(existingDepartment.get()));
@@ -84,7 +84,7 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
         } else {
             existingDepartment = departmentRepository.findByName(secretaryHistoryDTO.getDepartment().getName());
             if (existingDepartment.isPresent()) {
-                if (secretaryHistoryDTO.getMember().getDepartment().getId() != existingDepartment.get().getId()) {
+                if (!secretaryHistoryDTO.getMember().getDepartment().getId().equals(existingDepartment.get().getId())) {
                     throw new IllegalArgumentException("Member is not in that department! He is in  " + secretaryHistoryDTO.getMember().getDepartment().getName() + ".");
                 }
                 secretaryHistoryDTO.setDepartment(departmentConverter.toDto(existingDepartment.get()));
@@ -128,8 +128,8 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
             if (existingHistory.getStartDate() != null && existingHistory.getEndDate() != null && secretaryHistoryDTO.getStartDate() != null && secretaryHistoryDTO.getEndDate() != null) {
                 if (isDateOverlap(existingHistory.getStartDate(), existingHistory.getEndDate(),
                         secretaryHistoryDTO.getStartDate(), secretaryHistoryDTO.getEndDate())) {
-                    throw new IllegalArgumentException("The member " + member.get().getFirstname() + " " +
-                            member.get().getLastname() +
+                    throw new IllegalArgumentException("The member " +( member.isPresent()? member.get().getFirstname() : " ")+ " " +
+                           (member.isPresent() ?  member.get().getLastname() : " ") +
                             " already was at the SECRETARY position from " + existingHistory.getStartDate() + " to " + existingHistory.getEndDate() +
                             " in department " + secretaryHistoryDTO.getDepartment().getName());
                 }
@@ -241,7 +241,7 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
             throw new IllegalArgumentException("There is no member with that id!");
         }
         secretaryHistoryDto.setMember(memberConverter.toDto(existingMember.get()));
-        if(secretaryHistoryDto.getMember().getId()!=existingSecretaryHistory.get().getMember().getId()){
+        if(!secretaryHistoryDto.getMember().getId().equals(existingSecretaryHistory.get().getMember().getId())){
             throw new IllegalArgumentException("You want to change history for member "+secretaryHistoryDto.getMember().getFirstname()+" "+secretaryHistoryDto.getMember().getLastname()+
                     ", but the specific history is for "+existingSecretaryHistory.get().getMember().getFirstname()+" "+existingSecretaryHistory.get().getMember().getLastname());
 
@@ -255,7 +255,7 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
             throw new IllegalArgumentException("There is no department with that id!");
         }
         secretaryHistoryDto.setDepartment(departmentConverter.toDto(existingDepartment.get()));
-        if(secretaryHistoryDto.getDepartment().getId()!=existingSecretaryHistory.get().getDepartment().getId()){
+        if(!secretaryHistoryDto.getDepartment().getId().equals(existingSecretaryHistory.get().getDepartment().getId())){
             throw new IllegalArgumentException("You want to change history for department "+secretaryHistoryDto.getDepartment().getName()+
                     ", but the specific history is for "+existingSecretaryHistory.get().getDepartment().getName());
 
@@ -283,9 +283,15 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
                     //Aktivni sekretar se setuje na default role u
                     activeSecretary.get().setEndDate(secretaryHistoryDto.getStartDate());
                     Optional<Member> member = memberRepository.findById(activeSecretary.get().getMember().getId());
+
                     if (member.isPresent()) {
-                        System.out.println("hej");
-                        member.get().setRole(roleRepository.findById(ConstantsCustom.DEFAULT_ROLE_ID).get());
+                        Member memberDb = member.get();
+                        Optional<Role> role =roleRepository.findById(ConstantsCustom.DEFAULT_ROLE_ID);
+                        Role roleDb= new Role();
+                        if(role.isPresent()){
+                             roleDb = role.get();
+                        }
+                        memberDb.setRole(roleDb);
                         activeSecretary.get().setMember(memberConverter.toEntity(memberService.patchUpdateMember(member.get().getId(),existingMember.get())));
                         repository.save(activeSecretary.get());
                     }
