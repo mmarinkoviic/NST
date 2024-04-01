@@ -2,9 +2,7 @@ package nst.springboot.nstapplication.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import nst.springboot.nstapplication.converter.impl.EducationTitleConverter;
-import nst.springboot.nstapplication.domain.AcademicTitle;
 import nst.springboot.nstapplication.domain.EducationTitle;
-import nst.springboot.nstapplication.dto.AcademicTitleDto;
 import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.exception.EntityAlreadyExistsException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;

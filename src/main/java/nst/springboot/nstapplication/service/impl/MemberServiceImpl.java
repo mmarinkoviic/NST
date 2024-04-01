@@ -11,9 +11,7 @@ import nst.springboot.nstapplication.exception.EntityNotFoundException;
 import nst.springboot.nstapplication.exception.IllegalArgumentException;
 import nst.springboot.nstapplication.repository.*;
 import nst.springboot.nstapplication.service.MemberService;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;

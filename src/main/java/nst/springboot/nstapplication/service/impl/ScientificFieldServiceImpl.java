@@ -1,15 +1,11 @@
 package nst.springboot.nstapplication.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import nst.springboot.nstapplication.converter.impl.EducationTitleConverter;
 import nst.springboot.nstapplication.converter.impl.ScientificFieldConverter;
-import nst.springboot.nstapplication.domain.EducationTitle;
 import nst.springboot.nstapplication.domain.ScientificField;
-import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.dto.ScientificFieldDto;
 import nst.springboot.nstapplication.exception.EntityAlreadyExistsException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;
-import nst.springboot.nstapplication.repository.EducationTitleRepository;
 import nst.springboot.nstapplication.repository.ScientificFieldRepository;
 import nst.springboot.nstapplication.service.ScientificFieldService;
 import org.springframework.stereotype.Service;

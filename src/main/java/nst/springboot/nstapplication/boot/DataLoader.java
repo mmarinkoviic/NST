@@ -1,11 +1,10 @@
 package nst.springboot.nstapplication.boot;
 
-import nst.springboot.nstapplication.domain.*;
 import nst.springboot.nstapplication.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 
 @Component
 public class DataLoader implements CommandLineRunner {

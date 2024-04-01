@@ -4,7 +4,6 @@ import nst.springboot.nstapplication.domain.Member;
 import nst.springboot.nstapplication.dto.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface MemberService {
     MemberDto save(MemberDto memberDTO) throws Exception;

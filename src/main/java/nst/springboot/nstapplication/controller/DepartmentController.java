@@ -6,7 +6,6 @@ package nst.springboot.nstapplication.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import nst.springboot.nstapplication.domain.Department;
 import nst.springboot.nstapplication.dto.DepartmentDto;
 import nst.springboot.nstapplication.dto.HeadHistoryDto;
 import nst.springboot.nstapplication.dto.MemberDto;

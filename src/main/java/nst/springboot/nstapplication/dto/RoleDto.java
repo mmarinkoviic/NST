@@ -1,7 +1,6 @@
 package nst.springboot.nstapplication.dto;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 

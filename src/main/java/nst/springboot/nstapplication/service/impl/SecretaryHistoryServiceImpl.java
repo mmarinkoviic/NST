@@ -3,7 +3,6 @@ package nst.springboot.nstapplication.service.impl;
 import lombok.RequiredArgsConstructor;
 import nst.springboot.nstapplication.constants.ConstantsCustom;
 import nst.springboot.nstapplication.converter.impl.DepartmentConverter;
-import nst.springboot.nstapplication.converter.impl.HeadHistoryConverter;
 import nst.springboot.nstapplication.converter.impl.MemberConverter;
 import nst.springboot.nstapplication.converter.impl.SecretaryHistoryConverter;
 import nst.springboot.nstapplication.domain.*;

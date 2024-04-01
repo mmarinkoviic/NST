@@ -1,8 +1,6 @@
 package nst.springboot.nstapplication.repository;
 
-import nst.springboot.nstapplication.domain.AcademicTitle;
 import nst.springboot.nstapplication.domain.AcademicTitleHistory;
-import nst.springboot.nstapplication.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

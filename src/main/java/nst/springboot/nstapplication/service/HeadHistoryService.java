@@ -1,7 +1,6 @@
 package nst.springboot.nstapplication.service;
 
 import nst.springboot.nstapplication.dto.HeadHistoryDto;
-import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ package nst.springboot.nstapplication.converter.impl;
 import nst.springboot.nstapplication.domain.Department;
 import nst.springboot.nstapplication.converter.DtoEntityConverter;
 import nst.springboot.nstapplication.dto.DepartmentDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

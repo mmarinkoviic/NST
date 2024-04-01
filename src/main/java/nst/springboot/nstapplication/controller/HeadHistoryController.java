@@ -2,11 +2,7 @@ package nst.springboot.nstapplication.controller;
 
 import jakarta.validation.Valid;
 import nst.springboot.nstapplication.dto.HeadHistoryDto;
-import nst.springboot.nstapplication.dto.MemberDto;
-import nst.springboot.nstapplication.dto.MemberPatchRequest;
-import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 import nst.springboot.nstapplication.service.HeadHistoryService;
-import nst.springboot.nstapplication.service.SecretaryHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

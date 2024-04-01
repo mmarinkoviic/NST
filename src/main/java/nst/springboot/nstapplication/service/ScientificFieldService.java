@@ -1,7 +1,5 @@
 package nst.springboot.nstapplication.service;
 
-import nst.springboot.nstapplication.domain.ScientificField;
-import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.dto.ScientificFieldDto;
 
 import java.util.List;

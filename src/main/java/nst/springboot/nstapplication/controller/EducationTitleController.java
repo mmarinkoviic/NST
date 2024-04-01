@@ -1,11 +1,7 @@
 package nst.springboot.nstapplication.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
-import nst.springboot.nstapplication.dto.AcademicTitleDto;
 import nst.springboot.nstapplication.dto.EducationTitleDto;
-import nst.springboot.nstapplication.exception.EntityNotFoundException;
-import nst.springboot.nstapplication.service.AcademicTitleService;
 import nst.springboot.nstapplication.service.EducationTitleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
