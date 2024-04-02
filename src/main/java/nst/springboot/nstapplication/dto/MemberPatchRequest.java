@@ -1,7 +1,6 @@
 package nst.springboot.nstapplication.dto;
 
 import lombok.*;
-import nst.springboot.nstapplication.domain.Role;
 
 @Setter
 @Getter

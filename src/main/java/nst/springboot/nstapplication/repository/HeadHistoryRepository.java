@@ -1,16 +1,12 @@
 package nst.springboot.nstapplication.repository;
 
 import nst.springboot.nstapplication.domain.HeadHistory;
-import nst.springboot.nstapplication.domain.Member;
-import nst.springboot.nstapplication.domain.SecretaryHistory;
-import nst.springboot.nstapplication.dto.HeadHistoryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 @Repository

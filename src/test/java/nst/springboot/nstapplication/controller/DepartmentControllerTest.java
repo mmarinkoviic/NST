@@ -1,9 +1,7 @@
 package nst.springboot.nstapplication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nst.springboot.nstapplication.domain.Department;
 import nst.springboot.nstapplication.dto.*;
-import nst.springboot.nstapplication.service.AcademicTitleService;
 import nst.springboot.nstapplication.service.impl.DepartmentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;

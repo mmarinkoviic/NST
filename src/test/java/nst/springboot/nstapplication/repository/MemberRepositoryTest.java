@@ -1,21 +1,18 @@
 package nst.springboot.nstapplication.repository;
 
 import nst.springboot.nstapplication.domain.*;
-import nst.springboot.nstapplication.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.sound.midi.MetaMessage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+
 
 @DataJpaTest
 public class MemberRepositoryTest {

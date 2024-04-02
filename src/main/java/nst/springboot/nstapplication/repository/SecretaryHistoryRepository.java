@@ -1,8 +1,6 @@
 package nst.springboot.nstapplication.repository;
 
-import nst.springboot.nstapplication.domain.Member;
 import nst.springboot.nstapplication.domain.SecretaryHistory;
-import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

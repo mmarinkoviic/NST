@@ -1,7 +1,6 @@
 package nst.springboot.nstapplication.repository;
 
 import nst.springboot.nstapplication.domain.AcademicTitle;
-import nst.springboot.nstapplication.domain.EducationTitle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

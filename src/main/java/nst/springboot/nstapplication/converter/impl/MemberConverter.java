@@ -3,8 +3,6 @@ package nst.springboot.nstapplication.converter.impl;
 import nst.springboot.nstapplication.converter.DtoEntityConverter;
 import nst.springboot.nstapplication.domain.Member;
 import nst.springboot.nstapplication.dto.MemberDto;
-import nst.springboot.nstapplication.dto.MemberHeadSecretaryDto;
-import nst.springboot.nstapplication.dto.MemberPatchRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

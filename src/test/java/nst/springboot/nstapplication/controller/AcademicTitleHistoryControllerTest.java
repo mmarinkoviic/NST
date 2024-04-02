@@ -2,14 +2,10 @@ package nst.springboot.nstapplication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import nst.springboot.nstapplication.controller.AcademicTitleHistoryController;
-import nst.springboot.nstapplication.domain.*;
 import nst.springboot.nstapplication.dto.*;
 import nst.springboot.nstapplication.service.AcademicTitleHistoryService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

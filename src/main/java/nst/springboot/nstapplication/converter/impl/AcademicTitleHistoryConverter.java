@@ -1,7 +1,6 @@
 package nst.springboot.nstapplication.converter.impl;
 
 import nst.springboot.nstapplication.converter.DtoEntityConverter;
-import nst.springboot.nstapplication.domain.AcademicTitle;
 import nst.springboot.nstapplication.domain.AcademicTitleHistory;
 import nst.springboot.nstapplication.dto.AcademicTitleHistoryDto;
 import org.springframework.stereotype.Component;

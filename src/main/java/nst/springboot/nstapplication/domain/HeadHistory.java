@@ -1,6 +1,5 @@
 package nst.springboot.nstapplication.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 

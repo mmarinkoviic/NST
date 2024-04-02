@@ -15,7 +15,7 @@ import nst.springboot.nstapplication.repository.AcademicTitleRepository;
 import nst.springboot.nstapplication.repository.MemberRepository;
 import nst.springboot.nstapplication.repository.ScientificFieldRepository;
 import nst.springboot.nstapplication.service.AcademicTitleHistoryService;
-import org.springframework.cglib.core.Local;
+import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,6 +35,7 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
     private final AcademicTitleConverter academicTitleConverter;
     private final AcademicTitleRepository academicTitleRepository;
     private final ScientificFieldRepository scientificFieldRepository;
+
 
     @Override
     @Transactional

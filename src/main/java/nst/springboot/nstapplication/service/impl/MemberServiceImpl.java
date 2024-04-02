@@ -11,9 +11,7 @@ import nst.springboot.nstapplication.exception.EntityNotFoundException;
 import nst.springboot.nstapplication.exception.IllegalArgumentException;
 import nst.springboot.nstapplication.repository.*;
 import nst.springboot.nstapplication.service.MemberService;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -167,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
     }
     private void checkExistingMemberAndThrowException(Member member, Long roleId, String errorMessage) {
         Role role = new Role();
-        if(roleId==ConstantsCustom.SECRETARY_ROLE_ID) {
+        if(roleId.equals(ConstantsCustom.SECRETARY_ROLE_ID)) {
             Optional<SecretaryHistory> secretaryHistory = secretaryHistoryRepository.findCurrentSecretaryByDepartmentId(member.getDepartment().getId(), LocalDate.now());
             if(secretaryHistory.isPresent()){
                 if(secretaryHistory.get().getStartDate().isBefore(LocalDate.now()) && secretaryHistory.get().getEndDate()==null){
@@ -183,7 +181,7 @@ public class MemberServiceImpl implements MemberService {
             }
 
         }
-        if(roleId==ConstantsCustom.HEAD_ROLE_ID) {
+        if(roleId.equals(ConstantsCustom.HEAD_ROLE_ID)) {
             Optional<HeadHistory> headHistory = headHistoryRepository.findCurrentHeadByDepartmentId(member.getDepartment().getId(), LocalDate.now());
             if(headHistory.isPresent()){
                 if(headHistory.get().getStartDate().isBefore(LocalDate.now()) && headHistory.get().getEndDate()==null){

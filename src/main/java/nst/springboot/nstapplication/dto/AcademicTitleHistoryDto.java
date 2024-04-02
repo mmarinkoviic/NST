@@ -1,6 +1,5 @@
 package nst.springboot.nstapplication.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 

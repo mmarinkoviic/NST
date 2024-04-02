@@ -2,9 +2,7 @@ package nst.springboot.nstapplication.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
-import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.dto.ScientificFieldDto;
-import nst.springboot.nstapplication.service.EducationTitleService;
 import nst.springboot.nstapplication.service.ScientificFieldService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

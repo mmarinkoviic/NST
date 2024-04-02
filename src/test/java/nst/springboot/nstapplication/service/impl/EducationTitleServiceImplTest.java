@@ -1,14 +1,11 @@
 package nst.springboot.nstapplication.service.impl;
 
 import nst.springboot.nstapplication.converter.impl.EducationTitleConverter;
-import nst.springboot.nstapplication.domain.AcademicTitle;
 import nst.springboot.nstapplication.domain.EducationTitle;
-import nst.springboot.nstapplication.dto.AcademicTitleDto;
 import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.exception.EntityAlreadyExistsException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;
 import nst.springboot.nstapplication.repository.EducationTitleRepository;
-import nst.springboot.nstapplication.service.EducationTitleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

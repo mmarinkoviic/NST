@@ -1,10 +1,7 @@
 package nst.springboot.nstapplication.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import lombok.*;
-import nst.springboot.nstapplication.domain.Department;
-import nst.springboot.nstapplication.domain.Member;
 
 import java.io.Serializable;
 import java.time.LocalDate;

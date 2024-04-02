@@ -1,6 +1,5 @@
 package nst.springboot.nstapplication.service;
 
-import nst.springboot.nstapplication.dto.AcademicTitleDto;
 import nst.springboot.nstapplication.dto.EducationTitleDto;
 
 import java.util.List;

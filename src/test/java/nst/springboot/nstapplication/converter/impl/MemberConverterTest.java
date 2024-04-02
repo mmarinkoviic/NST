@@ -1,6 +1,5 @@
 package nst.springboot.nstapplication.converter.impl;
 
-import nst.springboot.nstapplication.converter.impl.DepartmentConverter;
 import nst.springboot.nstapplication.domain.*;
 import nst.springboot.nstapplication.dto.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MemberConverterTest {
 

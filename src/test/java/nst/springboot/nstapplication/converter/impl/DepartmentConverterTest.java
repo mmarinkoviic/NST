@@ -1,8 +1,6 @@
 package nst.springboot.nstapplication.converter.impl;
 
-import nst.springboot.nstapplication.domain.AcademicTitle;
 import nst.springboot.nstapplication.domain.Department;
-import nst.springboot.nstapplication.dto.AcademicTitleDto;
 import nst.springboot.nstapplication.dto.DepartmentDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
