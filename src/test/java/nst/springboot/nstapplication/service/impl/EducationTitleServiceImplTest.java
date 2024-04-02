@@ -10,6 +10,7 @@ import nst.springboot.nstapplication.exception.EntityNotFoundException;
 import nst.springboot.nstapplication.repository.EducationTitleRepository;
 import nst.springboot.nstapplication.service.EducationTitleService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -124,5 +125,42 @@ public class EducationTitleServiceImplTest {
         verify(educationTitleRepository, times(1)).findById(1L);
         verify(educationTitleRepository, never()).save(any());
         verify(educationTitleConverter, never()).toDto(any());
+    }
+
+    @Test
+    @DisplayName("JUnit test for partialUpdate method when successful")
+    void testPartialUpdateSuccessful() {
+        Long educationTitleId = 1L;
+        String updatedName = "Updated Name";
+        Map<String, String> updates = new HashMap<>();
+        updates.put("name", updatedName);
+
+        EducationTitle educationTitle = new EducationTitle();
+        educationTitle.setId(educationTitleId);
+        educationTitle.setName("Initial Name");
+
+        EducationTitle savedEducationTitle = new EducationTitle();
+        savedEducationTitle.setId(educationTitleId);
+        savedEducationTitle.setName(updatedName);
+
+        EducationTitleDto expectedDto = new EducationTitleDto();
+        expectedDto.setId(educationTitleId);
+        expectedDto.setName(updatedName);
+
+        when(educationTitleRepository.findById(educationTitleId)).thenReturn(Optional.of(educationTitle));
+        when(educationTitleRepository.save(any(EducationTitle.class))).thenAnswer(invocation -> {
+            EducationTitle argument = invocation.getArgument(0);
+            argument.setName(updatedName);
+            return savedEducationTitle;
+        });
+        when(educationTitleConverter.toDto(any(EducationTitle.class))).thenReturn(expectedDto);
+
+        EducationTitleDto result = educationTitleService.partialUpdate(educationTitleId, updates);
+
+        assertNotNull(result);
+        assertEquals(expectedDto, result);
+        verify(educationTitleRepository, times(1)).findById(educationTitleId);
+        verify(educationTitleRepository, times(1)).save(any(EducationTitle.class));
+        verify(educationTitleConverter, times(1)).toDto(any(EducationTitle.class));
     }
 }

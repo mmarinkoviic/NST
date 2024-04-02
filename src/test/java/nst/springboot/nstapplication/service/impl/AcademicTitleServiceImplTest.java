@@ -3,11 +3,14 @@ package nst.springboot.nstapplication.service.impl;
 
 import nst.springboot.nstapplication.converter.impl.AcademicTitleConverter;
 import nst.springboot.nstapplication.domain.AcademicTitle;
+import nst.springboot.nstapplication.domain.EducationTitle;
 import nst.springboot.nstapplication.dto.AcademicTitleDto;
+import nst.springboot.nstapplication.dto.EducationTitleDto;
 import nst.springboot.nstapplication.exception.EntityAlreadyExistsException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;
 import nst.springboot.nstapplication.repository.AcademicTitleRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,10 +38,6 @@ class AcademicTitleServiceImplTest {
     @InjectMocks
     private AcademicTitleServiceImpl academicTitleService;
 
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
     @Test
     void testSaveNewAcademicTitleSuccessfullySaved() {
 
@@ -135,7 +134,42 @@ class AcademicTitleServiceImplTest {
         verify(academicTitleConverter, never()).toDto(any());
     }
 
+    @Test
+    @DisplayName("JUnit test for partialUpdate method when successful")
+    void testPartialUpdateSuccessful() {
+        Long academicTitleId = 1L;
+        String updatedName = "Updated Name";
+        Map<String, String> updates = new HashMap<>();
+        updates.put("name", updatedName);
 
+        AcademicTitle academicTitle = new AcademicTitle();
+        academicTitle.setId(academicTitleId);
+        academicTitle.setName("Initial Name");
+
+        AcademicTitle savedAcademicTitle = new AcademicTitle();
+        savedAcademicTitle.setId(academicTitleId);
+        savedAcademicTitle.setName(updatedName);
+
+        AcademicTitleDto academicTitleDto = new AcademicTitleDto();
+        academicTitleDto.setId(academicTitleId);
+        academicTitleDto.setName(updatedName);
+
+        when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.of(academicTitle));
+        when(academicTitleRepository.save(any(AcademicTitle.class))).thenAnswer(invocation -> {
+            AcademicTitle argument = invocation.getArgument(0);
+            argument.setName(updatedName);
+            return savedAcademicTitle;
+        });
+        when(academicTitleConverter.toDto(any(AcademicTitle.class))).thenReturn(academicTitleDto);
+
+        AcademicTitleDto result = academicTitleService.partialUpdate(academicTitleId, updates);
+
+        assertNotNull(result);
+        assertEquals(academicTitleDto, result);
+        verify(academicTitleRepository, times(1)).findById(academicTitleId);
+        verify(academicTitleRepository, times(1)).save(any(AcademicTitle.class));
+        verify(academicTitleConverter, times(1)).toDto(any(AcademicTitle.class));
+    }
 
 
 
