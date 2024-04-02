@@ -160,7 +160,7 @@ public class HeadHistoryServiceImpl implements HeadHistoryService{
 
         return headHistoryConverter.toDto(repository.save(headHistoryConverter.toEntity(headHistoryDto)));
     }
-    private boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
+    public boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
         if(startDate1!= null && endDate1 !=null && startDate2!=null && endDate2!=null) {
             return startDate1.isBefore(endDate2) && endDate1.isAfter(startDate2);
         }

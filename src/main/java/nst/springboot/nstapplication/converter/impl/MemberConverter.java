@@ -35,7 +35,7 @@ public class MemberConverter implements DtoEntityConverter<MemberDto, Member> {
                 academicTitle(academicTitleConverter.toDto(entity.getAcademicTitle())).
                 educationTitle(educationTitleConverter.toDto(entity.getEducationTitle())).
                 scientificField(scientificFieldConverter.toDto(entity.getScientificField())).
-                role(entity.getRole()==null ? null : roleConverter.toDto(entity.getRole())).
+                role(roleConverter.toDto(entity.getRole())).
                 department(departmentConverter.toDto(entity.getDepartment())).
                 build();
     }
@@ -49,7 +49,7 @@ public class MemberConverter implements DtoEntityConverter<MemberDto, Member> {
                 academicTitle(academicTitleConverter.toEntity(dto.getAcademicTitle())).
                 educationTitle(educationTitleConverter.toEntity(dto.getEducationTitle())).
                 scientificField(scientificFieldConverter.toEntity(dto.getScientificField())).
-                role(dto.getRole()==null ? null : roleConverter.toEntity(dto.getRole())).
+                role(roleConverter.toEntity(dto.getRole())).
                 department(departmentConverter.toEntity(dto.getDepartment())).
                 build();
 
