@@ -16,8 +16,6 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>17</java.version>
-        <sonar.organization>jelenarepac</sonar.organization>
-        <sonar.projectKey>JelenaRepac_NST</sonar.projectKey>
     </properties>
     <dependencies>
         <dependency>
@@ -123,5 +121,16 @@
         </plugins>
     </build>
 
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>sonar</id>-->
+<!--            <activation>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <sonar.host.url>http://localhost:9000</sonar.host.url>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
 
 </project>
