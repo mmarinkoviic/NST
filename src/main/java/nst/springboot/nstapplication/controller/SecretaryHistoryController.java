@@ -36,7 +36,10 @@ public class SecretaryHistoryController {
     }
 
 
-
+//    @GetMapping("/department/{id}")
+//    public SecretaryHistoryDto findByDepartmentId(@PathVariable("id") Long id)  {
+//        return service.getByDepartmentId(id);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
