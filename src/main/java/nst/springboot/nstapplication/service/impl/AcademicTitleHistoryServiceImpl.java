@@ -49,16 +49,19 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
             throw new IllegalArgumentException("Can't set academic title for the future! Date can't be after today date!");
         }
 
-        Optional<Member> existingMember = null;
-        if(academicTitleDTO.getMember().getId()!=null){
-            existingMember = memberRepository.findById(academicTitleDTO.getMember().getId());
-            if(existingMember.isPresent()){
-                academicTitleDTO.setMember(memberConverter.toDto(existingMember.get()));
-            }
-            else{
-                throw new EntityNotFoundException("There is no member with that id!");
-            }
-        }
+        Optional<Member> existingMember = Optional.ofNullable(academicTitleDTO.getMember().getId())
+                .map(memberRepository::findById)
+                .orElseThrow(() -> new EntityNotFoundException("There is no member with that id!"));
+
+//        if(academicTitleDTO.getMember().getId()!=null){
+//            existingMember = memberRepository.findById(academicTitleDTO.getMember().getId());
+//            if(existingMember.isPresent()){
+//                academicTitleDTO.setMember(memberConverter.toDto(existingMember.get()));
+//            }
+//            else{
+//                throw new EntityNotFoundException("There is no member with that id!");
+//            }
+//        }
         Optional<AcademicTitle> existingAcademicTitle;
         if(academicTitleDTO.getAcademicTitle().getId()!=null){
             existingAcademicTitle = academicTitleRepository.findById(academicTitleDTO.getAcademicTitle().getId());
