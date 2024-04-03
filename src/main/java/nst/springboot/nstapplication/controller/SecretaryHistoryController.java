@@ -21,7 +21,7 @@ public class SecretaryHistoryController {
     }
 
     @PostMapping
-    public ResponseEntity<SecretaryHistoryDto> save(@Valid @RequestBody SecretaryHistoryDto secretaryHistory) throws Exception {
+    public ResponseEntity<SecretaryHistoryDto> save(@Valid @RequestBody SecretaryHistoryDto secretaryHistory){
         return new ResponseEntity<>(service.save(secretaryHistory), HttpStatus.CREATED);
     }
 
@@ -36,10 +36,7 @@ public class SecretaryHistoryController {
     }
 
 
-//    @GetMapping("/department/{id}")
-//    public SecretaryHistoryDto findByDepartmentId(@PathVariable("id") Long id)  {
-//        return service.getByDepartmentId(id);
-//    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
@@ -54,8 +51,5 @@ public class SecretaryHistoryController {
         return new ResponseEntity<>(updatedSecretaryHistory, HttpStatus.OK);
 
     }
-//    @GetMapping("/department/{id}/history")
-//    public List<SecretaryHistoryDto> getHistoryForDepartmentId(@PathVariable("id") Long id)  {
-//        return service.getHistoryForDepartmentId(id);
-//    }
+
 }

@@ -35,7 +35,7 @@ public class EducationTitleController {
     }
 
     @GetMapping("/{id}")
-    public EducationTitleDto findById(@PathVariable("id") Long id) throws Exception {
+    public EducationTitleDto findById(@PathVariable("id") Long id)  {
         return educationTitleService.findById(id);
     }
 

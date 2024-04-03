@@ -36,7 +36,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public RoleDto findById(@PathVariable("id") Long id) throws Exception {
+    public RoleDto findById(@PathVariable("id") Long id)  {
         return roleService.findById(id);
     }
 

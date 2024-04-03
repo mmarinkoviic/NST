@@ -6,7 +6,7 @@ import nst.springboot.nstapplication.dto.*;
 import java.util.List;
 
 public interface MemberService {
-    MemberDto save(MemberDto memberDTO) throws Exception;
+    MemberDto save(MemberDto memberDTO);
     List<MemberDto> getAll();
     void delete(Long id) ;
     MemberDto patchUpdateMember(Long memberId, Member patchRequest);

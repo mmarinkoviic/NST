@@ -30,7 +30,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<DepartmentDto> save(@Valid @RequestBody DepartmentDto departmentDto) throws Exception {
+    public ResponseEntity<DepartmentDto> save(@Valid @RequestBody DepartmentDto departmentDto)  {
         DepartmentDto deptDto = departmentService.save(departmentDto);
         return new ResponseEntity<>(deptDto, HttpStatus.CREATED);
     }
@@ -50,7 +50,7 @@ public class DepartmentController {
         return new ResponseEntity<>("Department removed!", HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<DepartmentDto> update(@PathVariable(name = "id") Long id, @Valid @RequestBody DepartmentDto departmentDto) throws Exception {
+    public ResponseEntity<DepartmentDto> update(@PathVariable(name = "id") Long id, @Valid @RequestBody DepartmentDto departmentDto)  {
         return new ResponseEntity<>(departmentService.update(id, departmentDto), HttpStatus.OK);
     }
     @GetMapping("{id}/secretary")

@@ -40,12 +40,12 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
     @Override
     @Transactional
     public AcademicTitleHistoryDto save(AcademicTitleHistoryDto academicTitleDTO) {
-        if(academicTitleDTO.getEndDate()!=null && academicTitleDTO.getStartDate()!= null){
-            if(academicTitleDTO.getEndDate().isBefore(academicTitleDTO.getStartDate())){
-                throw new IllegalArgumentException("End date can't be before start date!");
-            }
+        if(academicTitleDTO.getEndDate() != null && academicTitleDTO.getStartDate() != null &&
+                academicTitleDTO.getEndDate().isBefore(academicTitleDTO.getStartDate())) {
+            throw new IllegalArgumentException("End date can't be before start date!");
         }
-        if(academicTitleDTO.getStartDate().isAfter(LocalDate.now())){
+
+        if(academicTitleDTO.getStartDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Can't set academic title for the future! Date can't be after today date!");
         }
 
@@ -53,15 +53,6 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
                 .map(memberRepository::findById)
                 .orElseThrow(() -> new EntityNotFoundException("There is no member with that id!"));
 
-//        if(academicTitleDTO.getMember().getId()!=null){
-//            existingMember = memberRepository.findById(academicTitleDTO.getMember().getId());
-//            if(existingMember.isPresent()){
-//                academicTitleDTO.setMember(memberConverter.toDto(existingMember.get()));
-//            }
-//            else{
-//                throw new EntityNotFoundException("There is no member with that id!");
-//            }
-//        }
         Optional<AcademicTitle> existingAcademicTitle;
         if(academicTitleDTO.getAcademicTitle().getId()!=null){
             existingAcademicTitle = academicTitleRepository.findById(academicTitleDTO.getAcademicTitle().getId());
@@ -93,22 +84,20 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
             }
         }
         Optional<AcademicTitleHistory> ac = academicTitleHistoryRepository.findCurrentAcademicTitleByMemberId(academicTitleDTO.getMember().getId());
-        if(ac.isPresent()){
-            if(academicTitleDTO.getStartDate().isBefore(ac.get().getStartDate()) && academicTitleDTO.getEndDate()==null){
-                throw new IllegalArgumentException("Actual academic title for member "+
-                        academicTitleDTO.getMember().getFirstname()+" "+
-                        academicTitleDTO.getMember().getLastname()+" is "+
-                        academicTitleDTO.getAcademicTitle().getName());
-            }
+        if (ac.isPresent() && academicTitleDTO.getStartDate().isBefore(ac.get().getStartDate()) && academicTitleDTO.getEndDate() == null) {
+            throw new IllegalArgumentException("Actual academic title for member " +
+                    academicTitleDTO.getMember().getFirstname() + " " +
+                    academicTitleDTO.getMember().getLastname() + " is " +
+                    academicTitleDTO.getAcademicTitle().getName());
         }
+
         List<AcademicTitleHistory> academicTitleHistoryList = academicTitleHistoryRepository.findAllByMemberIdAndEndDateNotNull(academicTitleDTO.getMember().getId());
         for(AcademicTitleHistory academicTitle : academicTitleHistoryList){
-            if(academicTitleDTO.getEndDate() !=null){
-                if(isDateOverlap(academicTitleDTO.getStartDate(), academicTitleDTO.getEndDate(), academicTitle.getStartDate(), academicTitle.getEndDate())){
-                    throw new IllegalArgumentException("Member "+ academicTitleDTO.getMember().getFirstname() +" "+academicTitleDTO.getMember().getLastname()+
-                            " has been "+academicTitle.getAcademicTitle().getName()+" from "+academicTitle.getStartDate()+" to "+academicTitle.getEndDate());
-                }
+            if (academicTitleDTO.getEndDate() != null && isDateOverlap(academicTitleDTO.getStartDate(), academicTitleDTO.getEndDate(), academicTitle.getStartDate(), academicTitle.getEndDate())) {
+                throw new IllegalArgumentException("Member " + academicTitleDTO.getMember().getFirstname() + " " + academicTitleDTO.getMember().getLastname() +
+                        " has been " + academicTitle.getAcademicTitle().getName() + " from " + academicTitle.getStartDate() + " to " + academicTitle.getEndDate());
             }
+
         }
         Optional<AcademicTitleHistory> academicTitleHistory = academicTitleHistoryRepository.findCurrentAcademicTitleByMemberId(academicTitleDTO.getMember().getId());
         if(academicTitleHistory.isPresent()){
@@ -144,8 +133,11 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
     public List<AcademicTitleHistoryDto> getAll() {
         return academicTitleHistoryRepository
                 .findAll()
-                .stream().map(entity -> academicTitleHistoryConverter.toDto(entity))
-                .collect(Collectors.toList());
+                .stream()
+                .map(academicTitleHistoryConverter::toDto)
+                .toList();
+
+
     }
 
     @Override

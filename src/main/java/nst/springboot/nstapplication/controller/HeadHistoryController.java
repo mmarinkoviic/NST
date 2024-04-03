@@ -19,7 +19,7 @@ public class HeadHistoryController {
     }
 
     @PostMapping
-    public ResponseEntity<HeadHistoryDto> save(@Valid @RequestBody HeadHistoryDto headHistoryDto) throws Exception {
+    public ResponseEntity<HeadHistoryDto> save(@Valid @RequestBody HeadHistoryDto headHistoryDto) {
         return new ResponseEntity<>(service.save(headHistoryDto), HttpStatus.CREATED);
     }
 
@@ -33,11 +33,6 @@ public class HeadHistoryController {
         return service.findById(id);
     }
 
-//    @GetMapping("/department/{id}")
-//    public HeadHistoryDto findByDepartmentId(@PathVariable("id") Long id)  {
-//        return service.getByDepartmentId(id);
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         service.delete(id);
@@ -50,9 +45,5 @@ public class HeadHistoryController {
         return new ResponseEntity<>(updatedHeadHistory, HttpStatus.OK);
     }
 
-//    @GetMapping("/department/{id}/history")
-//    public List<HeadHistoryDto> getHistoryForDepartmentId(@PathVariable("id") Long id)  {
-//        return service.getHistoryForDepartmentId(id);
-//    }
 
 }

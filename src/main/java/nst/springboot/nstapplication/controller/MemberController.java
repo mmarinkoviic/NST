@@ -23,7 +23,7 @@ public class MemberController {
 
     //saving default member
     @PostMapping
-    public ResponseEntity<MemberDto> save(@Valid @RequestBody MemberDto memberDTO) throws Exception {
+    public ResponseEntity<MemberDto> save(@Valid @RequestBody MemberDto memberDTO)  {
         MemberDto member=  memberService.save(memberDTO);
         return new ResponseEntity<>(member, HttpStatus.CREATED);
     }
@@ -46,7 +46,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         memberService.delete(id);
         return new ResponseEntity<>("Member removed!", HttpStatus.OK);
     }
