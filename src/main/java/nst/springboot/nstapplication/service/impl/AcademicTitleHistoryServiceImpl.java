@@ -134,7 +134,7 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
 
         return academicTitleHistoryConverter.toDto(academicTitleHistoryRepository.save(academicTitleHistoryConverter.toEntity(academicTitleDTO)));
     }
-    private boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
+    public boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
         return startDate1.isBefore(endDate2) && endDate1.isAfter(startDate2);
     }
     @Override
