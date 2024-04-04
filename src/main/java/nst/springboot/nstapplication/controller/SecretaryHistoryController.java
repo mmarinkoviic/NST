@@ -45,11 +45,6 @@ public class SecretaryHistoryController {
 
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SecretaryHistoryDto> updateSecretaryHistory(@PathVariable Long id, @RequestBody SecretaryHistoryDto secretaryHistoryDto) {
-        SecretaryHistoryDto updatedSecretaryHistory = service.patchSecretaryHistory(id, secretaryHistoryDto);
-        return new ResponseEntity<>(updatedSecretaryHistory, HttpStatus.OK);
 
-    }
 
 }

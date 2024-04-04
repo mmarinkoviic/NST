@@ -235,47 +235,6 @@ import static org.mockito.Mockito.when;
         assertThrows(EmptyResponseException.class, () -> secretaryHistoryService.getHistoryForDepartmentId(departmentId));
     }
 
-    @Test
-    @DisplayName("JUnit test for patching secretary history")
-    void testPatchSecretaryHistory() {
-        Long headHistoryId = 1L;
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now().minusDays(1));
-        secretaryHistoryDto.setEndDate(null);
-        secretaryHistoryDto.setMember(MemberDto.builder().id(1L).build());
-        secretaryHistoryDto.setDepartment(DepartmentDto.builder().id(1L).build());
-
-        Member existingMember = new Member();
-        existingMember.setId(1L);
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-
-        Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(existingDepartment));
-
-        SecretaryHistory existingSecretaryHistory = new SecretaryHistory();
-        existingSecretaryHistory.setId(headHistoryId);
-        existingSecretaryHistory.setStartDate(LocalDate.now().minusDays(2));
-        existingSecretaryHistory.setEndDate(null);
-        existingSecretaryHistory.setMember(existingMember);
-        existingSecretaryHistory.setDepartment(existingDepartment);
-        when(secretaryHistoryRepository.findById(headHistoryId)).thenReturn(Optional.of(existingSecretaryHistory));
-
-        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(memberConverter.toDto(existingMember)).thenReturn(secretaryHistoryDto.getMember());
-        when(departmentConverter.toDto(existingDepartment)).thenReturn(secretaryHistoryDto.getDepartment());
-
-        when(memberService.patchUpdateMember(existingMember.getId(), existingMember)).thenReturn(secretaryHistoryDto.getMember());
-
-        when(secretaryHistoryConverter.toDto(existingSecretaryHistory)).thenReturn(secretaryHistoryDto);
-        SecretaryHistoryDto result = secretaryHistoryService.patchSecretaryHistory(headHistoryId, secretaryHistoryDto);
-
-        assertNotNull(result);
-        assertEquals(secretaryHistoryDto, result);
-    }
-
-
 
     @Test
     @DisplayName("Test getAll() when no secretary histories are found")
@@ -324,46 +283,6 @@ import static org.mockito.Mockito.when;
 
 
 
-    @Test
-    @DisplayName("Test for patching SecretaryHistory with end date before start date")
-    void testPatchSecretaryHistoryWithEndDateBeforeStartDate() {
-        Long historyId = 1L;
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(LocalDate.now().minusDays(1)); // End date before start date
-
-        nst.springboot.nstapplication.exception.IllegalArgumentException exception = assertThrows(nst.springboot.nstapplication.exception.IllegalArgumentException.class, () -> secretaryHistoryService.patchSecretaryHistory(historyId,secretaryHistoryDto));
-
-        assertEquals("End date can't be before start date!", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Test for patching non-existing SecretaryHistory")
-    void testPatchNonExistingSecretaryHistory() {
-        Long historyId = 1L;
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-
-        when(secretaryHistoryRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.patchSecretaryHistory(historyId, secretaryHistoryDto));
-    }
-
-    @Test
-    @DisplayName("Test for patching SecretaryHistory with non-existing member")
-    void testPatchSecretaryHistoryWithNonExistingMember() {
-        Long historyId = 1L;
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-
-        assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.patchSecretaryHistory(historyId, secretaryHistoryDto));
-    }
 
 
-    @Test
-    @DisplayName("Test for patching SecretaryHistory with non-existing department")
-    void testPatchSecretaryHistoryWithNonExistingDepartment() {
-        Long historyId = 1L;
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-
-        assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.patchSecretaryHistory(historyId, secretaryHistoryDto));
-    }
 }

@@ -87,15 +87,4 @@ import static org.mockito.Mockito.when;
                 .andExpect(MockMvcResultMatchers.content().string("Secretary history removed!"));
     }
 
-    @Test
-    @DisplayName("Test for updating a secretary history")
-     void testUpdateSecretaryHistory() throws Exception {
-        when(secretaryHistoryService.patchSecretaryHistory(1L, secretaryHistoryDto)).thenReturn(secretaryHistoryDto);
-        String body = om.writeValueAsString(secretaryHistoryDto);
-
-        mockMvc.perform(MockMvcRequestBuilders.patch("/secretary/{id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
 }
