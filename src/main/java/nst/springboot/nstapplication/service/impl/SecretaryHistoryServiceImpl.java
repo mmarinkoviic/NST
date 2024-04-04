@@ -43,11 +43,11 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
             secretaryHistoryDTO.setStartDate(LocalDate.now());
         }
         //Ako je end date pre start date a
-        if (secretaryHistoryDTO.getEndDate() != null && secretaryHistoryDTO.getStartDate() != null) {
-            if (secretaryHistoryDTO.getEndDate().isBefore(secretaryHistoryDTO.getStartDate())) {
-                throw new IllegalArgumentException("End date can't be before start date!");
-            }
+        if (secretaryHistoryDTO.getEndDate() != null && secretaryHistoryDTO.getStartDate() != null
+                && secretaryHistoryDTO.getEndDate().isBefore(secretaryHistoryDTO.getStartDate())) {
+            throw new IllegalArgumentException("End date can't be before start date!");
         }
+
         //Provera za clana, da li postoji
         Optional<Member> existingMember;
         if (secretaryHistoryDTO.getMember().getId() != null) {
