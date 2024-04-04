@@ -20,10 +20,7 @@ public class SecretaryHistoryController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<SecretaryHistoryDto> save(@Valid @RequestBody SecretaryHistoryDto secretaryHistory){
-        return new ResponseEntity<>(service.save(secretaryHistory), HttpStatus.CREATED);
-    }
+
 
     @GetMapping
     public ResponseEntity<List<SecretaryHistoryDto>> getAll() {

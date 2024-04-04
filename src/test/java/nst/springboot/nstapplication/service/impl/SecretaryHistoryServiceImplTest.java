@@ -275,65 +275,6 @@ import static org.mockito.Mockito.when;
         assertEquals(secretaryHistoryDto, result);
     }
 
-//    @Test
-//    @DisplayName("JUnit test for saving secretary history")
-//    void testSave() {
-//        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-//        secretaryHistoryDto.setStartDate(null);
-//        secretaryHistoryDto.setEndDate(null);
-//
-//        DepartmentDto departmentDto = new DepartmentDto();
-//        departmentDto.setId(1L);
-//        departmentDto.setName("Department A");
-//
-//        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
-//        secretaryHistoryDto.setMember(memberDto);
-//
-//        secretaryHistoryDto.setDepartment(departmentDto);
-//
-//        Member existingMember = new Member();
-//        existingMember.setId(1L);
-//        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-//        when(memberConverter.toDto(existingMember)).thenReturn(secretaryHistoryDto.getMember());
-//
-//        Department existingDepartment = new Department();
-//        existingDepartment.setId(1L);
-//        when(departmentRepository.findById(1L)).thenReturn(Optional.of(existingDepartment));
-//        when(departmentConverter.toDto(existingDepartment)).thenReturn(secretaryHistoryDto.getDepartment());
-//
-//        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
-//        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-//
-//        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(secretaryHistoryDto.getMember());
-//
-//        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
-//        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
-//
-//        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
-//
-//        assertNotNull(result);
-//        assertNotNull(result.getStartDate());
-//        assertEquals(LocalDate.now(), result.getStartDate());
-//        assertNull(result.getEndDate());
-//        assertEquals(secretaryHistoryDto.getMember(), result.getMember());
-//        assertEquals(secretaryHistoryDto.getDepartment(), result.getDepartment());
-//    }
-
-    @Test
-    @DisplayName("JUnit test for saving secretary history with end date before start date")
-    void testSaveWithEndDateBeforeStartDate() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(LocalDate.now().minusDays(1));
-
-        nst.springboot.nstapplication.exception.IllegalArgumentException exception = assertThrows(nst.springboot.nstapplication.exception.IllegalArgumentException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
-
-        assertEquals("End date can't be before start date!", exception.getMessage());
-    }
-
-
-
-
 
 
     @Test
@@ -378,7 +319,6 @@ import static org.mockito.Mockito.when;
 
         assertFalse(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
     }
-
 
 
 

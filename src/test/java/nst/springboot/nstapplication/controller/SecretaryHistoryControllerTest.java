@@ -53,17 +53,7 @@ import static org.mockito.Mockito.when;
                 .build();
     }
 
-    @Test
-    @DisplayName("Test for saving a secretary history")
-     void testSaveSecretaryHistory() throws Exception {
-        when(secretaryHistoryService.save(any(SecretaryHistoryDto.class))).thenReturn(secretaryHistoryDto);
-        String body = om.writeValueAsString(secretaryHistoryDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/secretary")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-    }
 
     @Test
     @DisplayName("Test for getting all secretary histories")

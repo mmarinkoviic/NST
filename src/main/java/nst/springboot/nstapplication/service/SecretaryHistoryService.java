@@ -5,7 +5,6 @@ import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 import java.util.List;
 
 public interface SecretaryHistoryService {
-    SecretaryHistoryDto save(SecretaryHistoryDto secretaryHistoryDTO);
     List<SecretaryHistoryDto> getAll();
     SecretaryHistoryDto getByDepartmentId(Long id);
     void delete(Long id);
