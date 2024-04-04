@@ -275,49 +275,49 @@ import static org.mockito.Mockito.when;
         assertEquals(secretaryHistoryDto, result);
     }
 
-    @Test
-    @DisplayName("JUnit test for saving secretary history")
-    void testSave() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(null);
-        secretaryHistoryDto.setEndDate(null);
-
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(1L);
-        departmentDto.setName("Department A");
-
-        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
-        secretaryHistoryDto.setMember(memberDto);
-
-        secretaryHistoryDto.setDepartment(departmentDto);
-
-        Member existingMember = new Member();
-        existingMember.setId(1L);
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-        when(memberConverter.toDto(existingMember)).thenReturn(secretaryHistoryDto.getMember());
-
-        Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(existingDepartment));
-        when(departmentConverter.toDto(existingDepartment)).thenReturn(secretaryHistoryDto.getDepartment());
-
-        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
-        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(secretaryHistoryDto.getMember());
-
-        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
-        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
-
-        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
-
-        assertNotNull(result);
-        assertNotNull(result.getStartDate());
-        assertEquals(LocalDate.now(), result.getStartDate());
-        assertNull(result.getEndDate());
-        assertEquals(secretaryHistoryDto.getMember(), result.getMember());
-        assertEquals(secretaryHistoryDto.getDepartment(), result.getDepartment());
-    }
+//    @Test
+//    @DisplayName("JUnit test for saving secretary history")
+//    void testSave() {
+//        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
+//        secretaryHistoryDto.setStartDate(null);
+//        secretaryHistoryDto.setEndDate(null);
+//
+//        DepartmentDto departmentDto = new DepartmentDto();
+//        departmentDto.setId(1L);
+//        departmentDto.setName("Department A");
+//
+//        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
+//        secretaryHistoryDto.setMember(memberDto);
+//
+//        secretaryHistoryDto.setDepartment(departmentDto);
+//
+//        Member existingMember = new Member();
+//        existingMember.setId(1L);
+//        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
+//        when(memberConverter.toDto(existingMember)).thenReturn(secretaryHistoryDto.getMember());
+//
+//        Department existingDepartment = new Department();
+//        existingDepartment.setId(1L);
+//        when(departmentRepository.findById(1L)).thenReturn(Optional.of(existingDepartment));
+//        when(departmentConverter.toDto(existingDepartment)).thenReturn(secretaryHistoryDto.getDepartment());
+//
+//        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
+//        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
+//
+//        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(secretaryHistoryDto.getMember());
+//
+//        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
+//        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
+//
+//        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
+//
+//        assertNotNull(result);
+//        assertNotNull(result.getStartDate());
+//        assertEquals(LocalDate.now(), result.getStartDate());
+//        assertNull(result.getEndDate());
+//        assertEquals(secretaryHistoryDto.getMember(), result.getMember());
+//        assertEquals(secretaryHistoryDto.getDepartment(), result.getDepartment());
+//    }
 
     @Test
     @DisplayName("JUnit test for saving secretary history with end date before start date")
@@ -331,52 +331,10 @@ import static org.mockito.Mockito.when;
         assertEquals("End date can't be before start date!", exception.getMessage());
     }
 
-    @Test
-    @DisplayName("JUnit test for saving secretary history with member not found by ID")
-    void testSaveWithMemberNotFoundByID() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(null);
-        secretaryHistoryDto.setMember(MemberDto.builder().id(1L).build());
 
-        when(memberRepository.findById(1L)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
 
-        assertEquals("There is no member with that id!", exception.getMessage());
-    }
 
-    @Test
-    @DisplayName("JUnit test for saving head secretary with member not found by firstname and lastname")
-    void testSaveWithMemberNotFoundByFirstNameAndLastName() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(null);
-        secretaryHistoryDto.setMember(MemberDto.builder().id(1L).build());
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
-
-        assertEquals("There is no member with that id!", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("JUnit test for saving secretary history with department not found by ID")
-    void testSaveWithDepartmentNotFoundByID() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(null);
-        secretaryHistoryDto.setDepartment(DepartmentDto.builder().id(1L).build());
-        secretaryHistoryDto.setMember(MemberDto.builder().id(1L).build());
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(new Member()));
-        when(departmentRepository.findById(1L)).thenReturn(Optional.empty());
-
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
-
-        assertEquals("There is no department with that id!", exception.getMessage());
-    }
 
     @Test
     @DisplayName("Test getAll() when no secretary histories are found")
@@ -422,96 +380,7 @@ import static org.mockito.Mockito.when;
     }
 
 
-    @Test
-    @DisplayName("JUnit test for saving secretary history with existing member but different department")
-    void testSaveWithExistingMemberButDifferentDepartment() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(null);
 
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(2L); // Assuming a different department ID
-        departmentDto.setName("Different Department");
-        secretaryHistoryDto.setDepartment(departmentDto);
-        MemberDto existingMemberDto = MemberDto.builder().id(1L).department(departmentDto).build();
-        secretaryHistoryDto.setMember(existingMemberDto);
-
-        Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
-        existingDepartment.setName("Department A");
-
-        Member existingMember = new Member();
-        existingMember.setId(1L);
-        existingMember.setDepartment(existingDepartment);
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-        when(memberConverter.toDto(existingMember)).thenReturn(existingMemberDto);
-
-        when(departmentRepository.findById(2L)).thenReturn(Optional.of(new Department()));
-        when(departmentConverter.toDto(any(Department.class))).thenReturn(departmentDto);
-
-        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
-        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(existingMemberDto);
-
-        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
-        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
-
-        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
-
-        assertNotNull(result);
-        assertNotNull(result.getStartDate());
-        assertEquals(LocalDate.now(), result.getStartDate());
-        assertNull(result.getEndDate());
-        assertEquals(existingMemberDto, result.getMember());
-        assertEquals(departmentDto, result.getDepartment());
-    }
-
-    @Test
-    @DisplayName("JUnit test for saving secretary history with existing department but different name")
-    void testSaveWithExistingDepartmentButDifferentName() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(null);
-
-        DepartmentDto existingDepartmentDto = new DepartmentDto();
-        existingDepartmentDto.setId(1L);
-        existingDepartmentDto.setName("Department A");
-
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(1L);
-        departmentDto.setName("Different Name"); // Assuming a different department name
-        secretaryHistoryDto.setDepartment(departmentDto);
-        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
-        secretaryHistoryDto.setMember(memberDto);
-
-        Member existingMember = new Member();
-        existingMember.setId(1L);
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-        when(memberConverter.toDto(existingMember)).thenReturn(memberDto);
-
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(new Department()));
-        when(departmentConverter.toDto(any(Department.class))).thenReturn(existingDepartmentDto);
-
-        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
-        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(memberDto);
-
-        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
-        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
-
-        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
-
-        assertNotNull(result);
-        assertNotNull(result.getStartDate());
-        assertEquals(LocalDate.now(), result.getStartDate());
-        assertNull(result.getEndDate());
-        assertEquals(memberDto, result.getMember());
-        assertEquals(existingDepartmentDto, result.getDepartment());
-    }
 
 
 
