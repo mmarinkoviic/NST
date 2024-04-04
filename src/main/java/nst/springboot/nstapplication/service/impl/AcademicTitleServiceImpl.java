@@ -34,10 +34,13 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
 
     @Override
     public List<AcademicTitleDto> getAll() {
-        return academicTitleRepository
-                .findAll()
-                .stream().map(entity -> academicTitleConverter.toDto(entity))
-                .collect(Collectors.toList());
+            return academicTitleRepository
+                    .findAll()
+                    .stream()
+                    .map(academicTitleConverter::toDto)
+                    .collect(Collectors.toList());
+
+
     }
 
     @Override

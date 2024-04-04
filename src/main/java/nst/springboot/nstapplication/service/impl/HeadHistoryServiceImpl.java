@@ -171,9 +171,11 @@ public class HeadHistoryServiceImpl implements HeadHistoryService{
     public List<HeadHistoryDto> getAll() {
         return repository
                 .findAll()
-                .stream().map(entity -> headHistoryConverter.toDto(entity))
+                .stream()
+                .map(headHistoryConverter::toDto)
                 .collect(Collectors.toList());
     }
+
     @Override
     public HeadHistoryDto getByDepartmentId(Long id){
         Optional<HeadHistory> headHistory = repository.findByDepartmentIdAndEndDateNull(id);

@@ -217,12 +217,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDto> getAll() {
         List<DepartmentDto> departmentDtoList = departmentRepository
                 .findAll()
-                .stream().map(entity -> departmentConverter.toDto(entity))
+                .stream()
+                .map(departmentConverter::toDto)
                 .collect(Collectors.toList());
-        if(departmentDtoList.isEmpty()){
-            throw new EmptyResponseException("There are no departments in database!");
+        if (departmentDtoList.isEmpty()) {
+            throw new EmptyResponseException("There are no departments in the database!");
         }
-            return departmentDtoList;
+        return departmentDtoList;
     }
+
 
 }

@@ -38,9 +38,12 @@ public class EducationTitleServiceImpl implements EducationTitleService {
     public List<EducationTitleDto> getAll() {
         return educationTitleRepository
                 .findAll()
-                .stream().map(entity -> educationTitleConverter.toDto(entity))
+                .stream()
+                .map(educationTitleConverter::toDto)
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public EducationTitleDto findById(Long id) {
