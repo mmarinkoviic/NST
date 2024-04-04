@@ -276,28 +276,24 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
         }
         //aktivan sekretar
         Optional<SecretaryHistory> activeSecretary = repository.findCurrentSecretaryByDepartmentId(secretaryHistoryDto.getDepartment().getId(), LocalDate.now());
-        if (activeSecretary.isPresent()) {
-            if (secretaryHistoryDto.getEndDate() == null &&
-                    secretaryHistoryDto.getStartDate().isAfter(activeSecretary.get().getStartDate())) {
-                // Merge this if statement with the enclosing one.
-                // Aktivni sekretar se setuje na default role u
-                // Uncovered code
-                activeSecretary.get().setEndDate(secretaryHistoryDto.getStartDate());
-                Optional<Member> member = memberRepository.findById(activeSecretary.get().getMember().getId());
-
-                if (member.isPresent()) {
-                        Member memberDb = member.get();
-                        Optional<Role> role =roleRepository.findById(ConstantsCustom.DEFAULT_ROLE_ID);
-                        Role roleDb= new Role();
-                        if(role.isPresent()){
-                             roleDb = role.get();
-                        }
-                        memberDb.setRole(roleDb);
-                        activeSecretary.get().setMember(memberConverter.toEntity(memberService.patchUpdateMember(member.get().getId(),existingMember.get())));
-                        repository.save(activeSecretary.get());
-                    }
+        if (activeSecretary.isPresent() &&
+                (secretaryHistoryDto.getEndDate() == null &&
+                        secretaryHistoryDto.getStartDate().isAfter(activeSecretary.get().getStartDate()))) {
+            // Aktivni sekretar se setuje na default role u
+            activeSecretary.get().setEndDate(secretaryHistoryDto.getStartDate());
+            Optional<Member> member = memberRepository.findById(activeSecretary.get().getMember().getId());
+            if (member.isPresent()) {
+                Member memberDb = member.get();
+                Optional<Role> role = roleRepository.findById(ConstantsCustom.DEFAULT_ROLE_ID);
+                Role roleDb = new Role();
+                if (role.isPresent()) {
+                    roleDb = role.get();
                 }
+                memberDb.setRole(roleDb);
+                activeSecretary.get().setMember(memberConverter.toEntity(memberService.patchUpdateMember(member.get().getId(), existingMember.get())));
+                repository.save(activeSecretary.get());
             }
+        }
 
 
         existingSecretaryHistory.get().setStartDate(secretaryHistoryDto.getStartDate());
