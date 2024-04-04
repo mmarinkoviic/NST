@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RoleConverterTest
+ class RoleConverterTest
 {
 
     private final RoleConverter converter = new RoleConverter();
 
     @Test
     @DisplayName("Test converting Role entity to RoleDto")
-    public void testToDto() {
+     void testToDto() {
         Role role = new Role(1L, "Secretary");
 
         RoleDto roleDto = converter.toDto(role);
@@ -25,7 +25,7 @@ public class RoleConverterTest
 
     @Test
     @DisplayName("Test converting RoleDto to Role entity")
-    public void testToEntity() {
+     void testToEntity() {
         RoleDto roleDto = new RoleDto(1L, "Secretary");
 
         Role role = converter.toEntity(roleDto);

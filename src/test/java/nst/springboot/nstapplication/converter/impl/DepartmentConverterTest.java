@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DepartmentConverterTest {
+ class DepartmentConverterTest {
 
 
     private final DepartmentConverter converter = new DepartmentConverter();
 
     @Test
     @DisplayName("Test converting Department entity to DepartmentDto")
-    public void testToDto() {
+     void testToDto() {
         Department department = Department.builder().id(1L).name("Katedra za informacione tehnologije").shortName("IS").build();
         DepartmentDto departmentDto = converter.toDto(department);
 
@@ -25,7 +25,7 @@ public class DepartmentConverterTest {
 
     @Test
     @DisplayName("Test converting DepartmentDto to Department entity")
-    public void testToEntity() {
+     void testToEntity() {
         DepartmentDto departmentDto = DepartmentDto.builder().id(1L).name("Katedra za informacione tehnologije").shortName("IS").build();
         Department department = converter.toEntity(departmentDto);
 

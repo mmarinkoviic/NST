@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SecretaryHistoryConverterTest {
+ class SecretaryHistoryConverterTest {
 
         private SecretaryHistoryConverter converter;
         private MemberConverter memberConverter;
@@ -89,7 +89,7 @@ public class SecretaryHistoryConverterTest {
 
         @Test
         @DisplayName("Test converting SecretaryHistory to SecretaryHistoryDto")
-        public void testToDto(){
+         void testToDto(){
 
             SecretaryHistoryDto secretaryHistoryDto= converter.toDto(secretaryHistory);
 
@@ -103,7 +103,7 @@ public class SecretaryHistoryConverterTest {
 
         @Test
         @DisplayName("Test converting SecretaryHistoryDto to SecretaryHistory entity")
-        public void testToEntity(){
+         void testToEntity(){
 
             SecretaryHistory secretaryHistory= converter.toEntity(secretaryHistoryDto);
 
@@ -116,7 +116,7 @@ public class SecretaryHistoryConverterTest {
         }
 
     @Test
-    public void testToDtoList() {
+     void testToDtoList() {
         List<SecretaryHistory> secretaryHistories = new ArrayList<>();
         secretaryHistories.add(secretaryHistory);
         secretaryHistories.add(SecretaryHistory.builder().
@@ -146,7 +146,7 @@ public class SecretaryHistoryConverterTest {
     }
 
     @Test
-    public void testToEntityList() {
+     void testToEntityList() {
         List<SecretaryHistoryDto> secretaryHistories = new ArrayList<>();
         secretaryHistories.add(secretaryHistoryDto);
         secretaryHistories.add(SecretaryHistoryDto.builder().

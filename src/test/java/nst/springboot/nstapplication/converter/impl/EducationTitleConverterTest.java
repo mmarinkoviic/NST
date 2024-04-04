@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EducationTitleConverterTest {
+ class EducationTitleConverterTest {
 
 
     private final EducationTitleConverter converter = new EducationTitleConverter();
 
     @Test
     @DisplayName("Test converting EducationTitle entity to EducationTitleDto")
-    public void testToDto() {
+     void testToDto() {
         EducationTitle educationTitle = new EducationTitle(1L, "Associate degree");
 
         EducationTitleDto educationTitleDto = converter.toDto(educationTitle);
@@ -25,7 +25,7 @@ public class EducationTitleConverterTest {
 
     @Test
     @DisplayName("Test converting EducationTitleDto to EducationTitle entity")
-    public void testToEntity() {
+     void testToEntity() {
         EducationTitleDto educationTitleDto = new EducationTitleDto(1L, "Associate degree");
 
         EducationTitle educationTitle = converter.toEntity(educationTitleDto);

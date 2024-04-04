@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class MemberConverterTest {
+ class MemberConverterTest {
 
     private DepartmentConverter departmentConverter;
     private AcademicTitleConverter academicTitleConverter;
@@ -71,7 +71,7 @@ public class MemberConverterTest {
     }
 
     @Test
-    public void testToDtoList() {
+     void testToDtoList() {
         List<Member> memberList = new ArrayList<>();
         memberList.add(member);
 

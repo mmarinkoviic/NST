@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HeadHistoryConverterTest {
+ class HeadHistoryConverterTest {
 
 
     private HeadHistoryConverter converter;
@@ -89,7 +89,7 @@ public class HeadHistoryConverterTest {
 
     @Test
     @DisplayName("Test converting HeadHistory to HeadHistoryDto entity")
-    public void testToDto(){
+     void testToDto(){
         HeadHistoryDto headHistoryDto= converter.toDto(headHistory);
 
         assertEquals(headHistoryDto.getId(), headHistory.getId());
@@ -102,7 +102,7 @@ public class HeadHistoryConverterTest {
 
     @Test
     @DisplayName("Test converting HeadHistoryDto to HeadHistory entity")
-    public void testToEntity(){
+     void testToEntity(){
         HeadHistory headHistory= converter.toEntity(headHistoryDto);
 
         assertEquals(headHistoryDto.getId(), headHistory.getId());
@@ -114,7 +114,7 @@ public class HeadHistoryConverterTest {
     }
 
     @Test
-    public void testToDtoList() {
+     void testToDtoList() {
         List<HeadHistory> headHistoryList = new ArrayList<>();
         headHistoryList.add(headHistory);
         headHistoryList.add(HeadHistory.builder().
@@ -144,7 +144,7 @@ public class HeadHistoryConverterTest {
     }
 
     @Test
-    public void testToEntityList() {
+     void testToEntityList() {
         List<HeadHistoryDto> headHistoryDtoList = new ArrayList<>();
         headHistoryDtoList.add(headHistoryDto);
         headHistoryDtoList.add(HeadHistoryDto.builder().

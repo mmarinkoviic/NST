@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AcademicTitleHistoryConverterTest {
+ class AcademicTitleHistoryConverterTest {
     private AcademicTitleHistoryConverter converter;
 
     private MemberConverter memberConverter;
@@ -34,7 +34,7 @@ public class AcademicTitleHistoryConverterTest {
 
     @Test
     @DisplayName("Test converting AcademicTitleHistory entity to AcademicTitleHistoryDto")
-    public void testToDto() {
+     void testToDto() {
         AcademicTitle academicTitle = new AcademicTitle(1L, "Professor");
         Member member = Member.builder()
                 .firstname("Jelena")
@@ -71,7 +71,7 @@ public class AcademicTitleHistoryConverterTest {
 
     @Test
     @DisplayName("Test converting AcademicTitleHistoryDto to AcademicTitleHistory entity")
-    public void testToEntity() {
+     void testToEntity() {
         AcademicTitleDto academicTitleDto = new AcademicTitleDto(1L, "Professor");
         MemberDto memberDto = MemberDto.builder()
                 .firstname("Jelena")

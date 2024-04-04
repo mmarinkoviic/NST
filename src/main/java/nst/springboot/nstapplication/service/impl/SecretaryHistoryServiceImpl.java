@@ -277,8 +277,6 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
         //aktivan sekretar
         Optional<SecretaryHistory> activeSecretary = repository.findCurrentSecretaryByDepartmentId(secretaryHistoryDto.getDepartment().getId(), LocalDate.now());
         if (activeSecretary.isPresent()) {
-            System.out.println(activeSecretary.get().getMember().getFirstname());
-
             if (secretaryHistoryDto.getEndDate() == null &&
                     secretaryHistoryDto.getStartDate().isAfter(activeSecretary.get().getStartDate())) {
                 // Merge this if statement with the enclosing one.

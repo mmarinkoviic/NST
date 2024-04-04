@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ScientificFieldConverterTest {
+ class ScientificFieldConverterTest {
 
     private final ScientificFieldConverter converter = new ScientificFieldConverter();
 
     @Test
     @DisplayName("Test converting ScientificField entity to ScientificFieldDto")
-    public void testToDto() {
+     void testToDto() {
         ScientificField scientificField = new ScientificField(1L, "Scientific computing applications");
 
         ScientificFieldDto scientificFieldDto = converter.toDto(scientificField);
@@ -24,7 +24,7 @@ public class ScientificFieldConverterTest {
 
     @Test
     @DisplayName("Test converting ScientificFieldDto to ScientificField entity")
-    public void testToEntity() {
+     void testToEntity() {
         ScientificFieldDto scientificFieldDto = new ScientificFieldDto(1L, "Scientific computing applications");
 
         ScientificField scientificField = converter.toEntity(scientificFieldDto);
