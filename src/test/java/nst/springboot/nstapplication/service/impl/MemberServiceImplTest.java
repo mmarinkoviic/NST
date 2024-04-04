@@ -1,14 +1,21 @@
 package nst.springboot.nstapplication.service.impl;
 
+import nst.springboot.nstapplication.converter.impl.AcademicTitleHistoryConverter;
 import nst.springboot.nstapplication.converter.impl.HeadHistoryConverter;
 import nst.springboot.nstapplication.converter.impl.MemberConverter;
 import nst.springboot.nstapplication.converter.impl.SecretaryHistoryConverter;
+import nst.springboot.nstapplication.domain.AcademicTitleHistory;
+import nst.springboot.nstapplication.domain.HeadHistory;
 import nst.springboot.nstapplication.domain.Member;
 import nst.springboot.nstapplication.domain.SecretaryHistory;
+import nst.springboot.nstapplication.dto.AcademicTitleHistoryDto;
+import nst.springboot.nstapplication.dto.HeadHistoryDto;
 import nst.springboot.nstapplication.dto.MemberDto;
 import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 import nst.springboot.nstapplication.exception.EmptyResponseException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;
+import nst.springboot.nstapplication.repository.AcademicTitleHistoryRepository;
+import nst.springboot.nstapplication.repository.HeadHistoryRepository;
 import nst.springboot.nstapplication.repository.MemberRepository;
 import nst.springboot.nstapplication.repository.SecretaryHistoryRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -45,6 +52,12 @@ import static org.mockito.Mockito.*;
     private HeadHistoryConverter headHistoryConverter;
     @Mock
     private SecretaryHistoryRepository secretaryHistoryRepository;
+    @Mock
+    private HeadHistoryRepository headHistoryRepository;
+    @Mock
+    private AcademicTitleHistoryConverter academicTitleHistoryConverter;
+    @Mock
+    private AcademicTitleHistoryRepository academicTitleHistoryRepository;
     @InjectMocks
     private MemberServiceImpl memberService;
 
@@ -152,6 +165,26 @@ import static org.mockito.Mockito.*;
         assertEquals("Member does not exist!", exception.getMessage());
     }
 
+    @Test
+    @DisplayName("Test getAllHistorySecretary() when member exists")
+    void testGetAllHistorySecretaryMemberExists() {
+        Long memberId = 1L;
+        SecretaryHistoryDto historyDto = new SecretaryHistoryDto();
+
+        Member member = new Member();
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        SecretaryHistory secretaryHistory = new SecretaryHistory();
+        when(secretaryHistoryRepository.findByMemberId(memberId)).thenReturn(Collections.singletonList(secretaryHistory));
+
+        when(secretaryHistoryConverter.toDto(secretaryHistory)).thenReturn(historyDto);
+
+        List<SecretaryHistoryDto> result = memberService.getAllHistorySecretary(memberId);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertSame(historyDto, result.get(0));
+    }
 
     @Test
     @DisplayName("Test getAllHistorySecretary() when member does not exist")
@@ -163,4 +196,62 @@ import static org.mockito.Mockito.*;
 
         assertEquals("There is no member with that id!", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("Test getAllHistoryHead() when member exists")
+    void testGetAllHistoryHeadMemberExists() {
+        Long memberId = 1L;
+        HeadHistoryDto historyDto = new HeadHistoryDto();
+
+        Member member = new Member();
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        HeadHistory headHistory = new HeadHistory();
+        when(headHistoryRepository.findByMemberId(memberId)).thenReturn(Collections.singletonList(headHistory));
+
+        when(headHistoryConverter.toDto(headHistory)).thenReturn(historyDto);
+
+        List<HeadHistoryDto> result = memberService.getAllHistoryHead(memberId);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertSame(historyDto, result.get(0));
+    }
+
+    @Test
+    @DisplayName("Test getAllHistoryHead() when member does not exist")
+    void testGetAllHistoryHeadMemberNotExists() {
+        Long memberId = 1L;
+        when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> memberService.getAllHistoryHead(memberId));
+
+        assertEquals("There is no member with that id!", exception.getMessage());
+    }
+
+
+    @Test
+    @DisplayName("Test getAllAcademicTitleHistory() when member exists")
+    void testGetAllAcademicTitleHistoryMemberExists() {
+        Long memberId = 1L;
+        AcademicTitleHistoryDto historyDto = new AcademicTitleHistoryDto();
+
+        // Mock setup
+        Member member = new Member();
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        AcademicTitleHistory academicTitleHistory = new AcademicTitleHistory();
+        when(academicTitleHistoryRepository.findByMemberIdOrderByStartDate(memberId))
+                .thenReturn(Collections.singletonList(academicTitleHistory));
+
+        // Update the mock setup for AcademicTitleHistoryConverter
+        when(academicTitleHistoryConverter.toDto(academicTitleHistory)).thenReturn(historyDto);
+
+        List<AcademicTitleHistoryDto> result = memberService.getAllAcademicTitleHistory(memberId);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertSame(historyDto, result.get(0));
+    }
+
 }
