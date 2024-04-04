@@ -382,6 +382,36 @@ public class SecretaryHistoryServiceImplTest {
 
 
 
+    @Test
+    @DisplayName("JUnit test for checking date overlap")
+    void testIsDateOverlap() {
+        LocalDate startDate1 = LocalDate.of(2022, 1, 1);
+        LocalDate endDate1 = LocalDate.of(2022, 1, 10);
+        LocalDate startDate2 = LocalDate.of(2022, 1, 5);
+        LocalDate endDate2 = LocalDate.of(2022, 1, 15);
 
+        assertTrue(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
+
+        startDate1 = LocalDate.of(2022, 1, 1);
+        endDate1 = LocalDate.of(2022, 1, 10);
+        startDate2 = LocalDate.of(2022, 1, 11);
+        endDate2 = LocalDate.of(2022, 1, 15);
+
+        assertFalse(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
+
+        startDate1 = LocalDate.of(2022, 1, 5);
+        endDate1 = LocalDate.of(2022, 1, 15);
+        startDate2 = LocalDate.of(2022, 1, 1);
+        endDate2 = LocalDate.of(2022, 1, 10);
+
+        assertTrue(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
+
+        startDate1 = LocalDate.of(2022, 1, 11);
+        endDate1 = LocalDate.of(2022, 1, 15);
+        startDate2 = LocalDate.of(2022, 1, 1);
+        endDate2 = LocalDate.of(2022, 1, 10);
+
+        assertFalse(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
+    }
 
 }

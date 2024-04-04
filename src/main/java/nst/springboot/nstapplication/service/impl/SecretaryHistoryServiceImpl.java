@@ -156,7 +156,7 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
         return secretaryHistoryConverter.toDto(repository.save(secretaryHistoryConverter.toEntity(secretaryHistoryDTO)));
     }
 
-    private boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
+    public boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
         return startDate1.isBefore(endDate2) && endDate1.isAfter(startDate2);
     }
 
