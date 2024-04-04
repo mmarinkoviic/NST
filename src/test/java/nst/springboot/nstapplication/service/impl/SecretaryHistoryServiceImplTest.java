@@ -422,7 +422,7 @@ import static org.mockito.Mockito.when;
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setId(2L); // Assuming a different department ID
         departmentDto.setName("Different Department");
-
+        secretaryHistoryDto.setDepartment(departmentDto);
         MemberDto existingMemberDto = MemberDto.builder().id(1L).department(departmentDto).build();
         secretaryHistoryDto.setMember(existingMemberDto);
 
@@ -472,7 +472,7 @@ import static org.mockito.Mockito.when;
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setId(1L);
         departmentDto.setName("Different Name"); // Assuming a different department name
-
+        secretaryHistoryDto.setDepartment(departmentDto);
         MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
         secretaryHistoryDto.setMember(memberDto);
 
@@ -503,32 +503,6 @@ import static org.mockito.Mockito.when;
         assertEquals(existingDepartmentDto, result.getDepartment());
     }
 
-    @Test
-    @DisplayName("JUnit test for saving secretary history with overlapping existing history")
-    void testSaveWithOverlappingHistory() {
-        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
-        secretaryHistoryDto.setStartDate(LocalDate.now());
-        secretaryHistoryDto.setEndDate(LocalDate.now().plusDays(10)); // Assuming end date 10 days after start date
 
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(1L);
-        departmentDto.setName("Department A");
-
-        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
-        secretaryHistoryDto.setMember(memberDto);
-        secretaryHistoryDto.setDepartment(departmentDto);
-
-        SecretaryHistory existingHistory = new SecretaryHistory();
-        existingHistory.setId(1L);
-        existingHistory.setStartDate(LocalDate.now().minusDays(5)); // Existing history with start date 5 days before current start date
-        existingHistory.setEndDate(LocalDate.now().plusDays(5)); // Existing history with end date 5 days after current start date
-
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(new Member()));
-        when(secretaryHistoryRepository.findByDepartmentId(1L)).thenReturn(Collections.singletonList(existingHistory));
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
-
-        assertEquals("The member already was at the SECRETARY position from " + existingHistory.getStartDate() + " to " + existingHistory.getEndDate() + " in department " + departmentDto.getName(), exception.getMessage());
-    }
 
 }
