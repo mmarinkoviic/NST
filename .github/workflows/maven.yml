@@ -27,8 +27,8 @@ jobs:
     - name: Run SonarCloud analysis
       run: |
         mvn sonar:sonar \
-          -Dsonar.projectKey=<replace with your SonarCloud project key> \
-          -Dsonar.organization=<replace with your SonarCloud organization key> \
+          -Dsonar.projectKey=JelenaRepac_NST \
+          -Dsonar.organization=jelenarepac \
           -Dsonar.host.url=https://sonarcloud.io
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
