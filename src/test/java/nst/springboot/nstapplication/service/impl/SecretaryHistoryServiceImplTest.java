@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 
-public class SecretaryHistoryServiceImplTest {
+ class SecretaryHistoryServiceImplTest {
     @Mock
     private SecretaryHistoryRepository secretaryHistoryRepository;
     @Mock

@@ -301,10 +301,11 @@ public class MemberServiceImpl implements MemberService {
             throw new EntityNotFoundException("There is no member with that id!");
         }
         else{
-            return secretaryHistoryRepository.findByMemberId(id).
-                    stream().
-                    map(entity -> secretaryHistoryConverter.toDto(entity))
+            return secretaryHistoryRepository.findByMemberId(id)
+                    .stream()
+                    .map(secretaryHistoryConverter::toDto)
                     .collect(Collectors.toList());
+
         }
 
     }
@@ -316,10 +317,11 @@ public class MemberServiceImpl implements MemberService {
             throw new EntityNotFoundException("There is no member with that id!");
         }
         else{
-            return headHistoryRepository.findByMemberId(id).
-                    stream().
-                    map(entity -> headHistoryConverter.toDto(entity))
+            return headHistoryRepository.findByMemberId(id)
+                    .stream()
+                    .map(headHistoryConverter::toDto)
                     .collect(Collectors.toList());
+
         }
 
     }
@@ -331,10 +333,11 @@ public class MemberServiceImpl implements MemberService {
             throw new EntityNotFoundException("There is no member with that id!");
         }
         else{
-            return academicTitleHistoryRepository.findByMemberIdOrderByStartDate(id).
-                    stream().
-                    map(entity -> academicTitleHistoryConverter.toDto(entity))
+            return academicTitleHistoryRepository.findByMemberIdOrderByStartDate(id)
+                    .stream()
+                    .map(academicTitleHistoryConverter::toDto)
                     .collect(Collectors.toList());
+
         }
     }
 

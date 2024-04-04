@@ -162,10 +162,10 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
 
     @Override
     public List<SecretaryHistoryDto> getAll() {
-        List<SecretaryHistoryDto> secretaryHistoryDtoList = repository
+        List<SecretaryHistoryDto> secretaryHistoryDtoList =  repository
                 .findAll()
                 .stream()
-                .map(entity -> secretaryHistoryConverter.toDto(entity))
+                .map(secretaryHistoryConverter::toDto)
                 .collect(Collectors.toList());
 
         if (secretaryHistoryDtoList.isEmpty()) {

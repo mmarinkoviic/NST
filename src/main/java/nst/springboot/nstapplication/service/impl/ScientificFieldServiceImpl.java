@@ -35,10 +35,11 @@ public class ScientificFieldServiceImpl implements ScientificFieldService {
 
     @Override
     public List<ScientificFieldDto> getAll() {
-        return scientificFieldRepository
-                .findAll()
-                .stream().map(entity -> scientificFieldConverter.toDto(entity))
+        return scientificFieldRepository.findAll()
+                .stream()
+                .map(scientificFieldConverter::toDto)
                 .collect(Collectors.toList());
+
     }
 
     @Override

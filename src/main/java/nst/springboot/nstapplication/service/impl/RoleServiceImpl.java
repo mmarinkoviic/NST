@@ -34,10 +34,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> getAll() {
-        return roleRepository
-                .findAll()
-                .stream().map(entity -> roleConverter.toDto(entity))
+        return roleRepository.findAll()
+                .stream()
+                .map(roleConverter::toDto)
                 .collect(Collectors.toList());
+
     }
     @Override
     public RoleDto findById(Long id) {
