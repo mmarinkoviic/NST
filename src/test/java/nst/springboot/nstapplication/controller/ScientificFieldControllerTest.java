@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(ScientificFieldController.class)
-public class ScientificFieldControllerTest {
+ class ScientificFieldControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +31,7 @@ public class ScientificFieldControllerTest {
 
     @Test
     @DisplayName("Test for saving a scientific field")
-    public void testSaveScientificField() throws Exception {
+     void testSaveScientificField() throws Exception {
         ScientificFieldDto scientificFieldDto = new ScientificFieldDto();
         scientificFieldDto.setName("Artificial intelligence");
 
@@ -45,7 +45,7 @@ public class ScientificFieldControllerTest {
 
     @Test
     @DisplayName("Test for fetching all scientific fields")
-    public void testGetAllScientificFields() throws Exception {
+     void testGetAllScientificFields() throws Exception {
         ScientificFieldDto scientificFieldDto = ScientificFieldDto.builder().name("Artificial intelligence").build();
         ScientificFieldDto scientificFieldDto1 = ScientificFieldDto.builder().name("Scientific computing applications").build();
 
@@ -60,7 +60,7 @@ public class ScientificFieldControllerTest {
 
     @Test
     @DisplayName("Test for finding a scientific field by id")
-    public void testFindByIdScientificField() throws Exception {
+     void testFindByIdScientificField() throws Exception {
         ScientificFieldDto scientificFieldDto = ScientificFieldDto.builder().id(1L).name("Artificial intelligence").build();
 
         when(scientificFieldService.findById(1L)).thenReturn(scientificFieldDto);
@@ -73,7 +73,7 @@ public class ScientificFieldControllerTest {
 
     @Test
     @DisplayName("Test for partial updating a scientific field")
-    public void testPartialUpdate() throws Exception {
+     void testPartialUpdate() throws Exception {
         ScientificFieldDto updatedScientificFieldDto = ScientificFieldDto.builder().id(1L).name("Artificial intelligence").build();
 
         when(scientificFieldService.partialUpdate(1L, getUpdates())).thenReturn(updatedScientificFieldDto);

@@ -25,8 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DepartmentController.class)
-
-public class DepartmentControllerTest {
+class DepartmentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +43,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for saving an department")
-    public void testSaveDepartment() throws Exception {
+     void testSaveDepartment() throws Exception {
 
         when(departmentService.save(any(DepartmentDto.class))).thenReturn(department);
 
@@ -57,7 +56,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for fetching all departments")
-    public void testGetAllDepartments() throws Exception {
+     void testGetAllDepartments() throws Exception {
         DepartmentDto departmentDto = DepartmentDto.builder().name("Katedra za menadžment kvaliteta i standardizaciju").shortName("MNG").build();
         when(departmentService.getAll()).thenReturn(List.of(department,departmentDto));
 
@@ -71,7 +70,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for finding department by id")
-    public void testFindByIdDepartment() throws Exception {
+     void testFindByIdDepartment() throws Exception {
         department.setId(1L);
         when(departmentService.findById(1L)).thenReturn(department);
 
@@ -84,7 +83,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for deleting department")
-    public void testDeleteDepartment() throws Exception {
+     void testDeleteDepartment() throws Exception {
         doNothing().when(departmentService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/department/{id}", 1L)
@@ -97,7 +96,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for getting active secretary for department")
-    public void testGetActiveSecretaryForDepartment() throws Exception {
+     void testGetActiveSecretaryForDepartment() throws Exception {
         MemberDto memberDto = MemberDto.builder()
                 .id(1L)
                 .firstname("Jelena")
@@ -121,7 +120,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for getting active head for department")
-    public void testGetActiveHeadForDepartment() throws Exception {
+     void testGetActiveHeadForDepartment() throws Exception {
         MemberDto memberDto = MemberDto.builder()
                 .id(1L)
                 .firstname("Jelena")
@@ -144,7 +143,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for getting secretary history for department")
-    public void testGetSecretaryHistoryForDepartment() throws Exception {
+     void testGetSecretaryHistoryForDepartment() throws Exception {
         SecretaryHistoryDto secretaryHistoryDto = SecretaryHistoryDto.builder()
                 .id(1L)
                 .startDate(LocalDate.now())
@@ -171,7 +170,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for getting head history for department")
-    public void testGetHeadHistoryForDepartment() throws Exception {
+     void testGetHeadHistoryForDepartment() throws Exception {
         HeadHistoryDto headHistoryDto = HeadHistoryDto.builder()
                 .id(1L)
                 .startDate(LocalDate.now())
@@ -198,7 +197,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for getting all members by department ID")
-    public void testGetAllMembersByDepartmentId() throws Exception {
+     void testGetAllMembersByDepartmentId() throws Exception {
         List<MemberDto> memberDtoList = List.of(MemberDto.builder()
                         .id(1L)
                         .firstname("Jelena")
@@ -231,7 +230,7 @@ public class DepartmentControllerTest {
 
     @Test
     @DisplayName("Test for updating a department")
-    public void testUpdateDepartment() throws Exception {
+     void testUpdateDepartment() throws Exception {
         when(departmentService.update(1L, department)).thenReturn(department);
         mockMvc.perform(MockMvcRequestBuilders.put("/department/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)

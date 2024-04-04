@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(SecretaryHistoryController.class)
-public class SecretaryHistoryControllerTest {
+ class SecretaryHistoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,7 +55,7 @@ public class SecretaryHistoryControllerTest {
 
     @Test
     @DisplayName("Test for saving a secretary history")
-    public void testSaveSecretaryHistory() throws Exception {
+     void testSaveSecretaryHistory() throws Exception {
         when(secretaryHistoryService.save(any(SecretaryHistoryDto.class))).thenReturn(secretaryHistoryDto);
         String body = om.writeValueAsString(secretaryHistoryDto);
 
@@ -67,7 +67,7 @@ public class SecretaryHistoryControllerTest {
 
     @Test
     @DisplayName("Test for getting all secretary histories")
-    public void testGetAllSecretaryHistories() throws Exception {
+     void testGetAllSecretaryHistories() throws Exception {
         List<SecretaryHistoryDto> secretaryHistories = Collections.singletonList(secretaryHistoryDto);
         when(secretaryHistoryService.getAll()).thenReturn(secretaryHistories);
 
@@ -79,7 +79,7 @@ public class SecretaryHistoryControllerTest {
 
     @Test
     @DisplayName("Test for finding a secretary history by ID")
-    public void testFindByIdSecretaryHistory() throws Exception {
+     void testFindByIdSecretaryHistory() throws Exception {
         when(secretaryHistoryService.findById(1L)).thenReturn(secretaryHistoryDto);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/secretary/{id}", 1L)
@@ -90,7 +90,7 @@ public class SecretaryHistoryControllerTest {
 
     @Test
     @DisplayName("Test for deleting a secretary history")
-    public void testDeleteSecretaryHistory() throws Exception {
+     void testDeleteSecretaryHistory() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/secretary/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -99,7 +99,7 @@ public class SecretaryHistoryControllerTest {
 
     @Test
     @DisplayName("Test for updating a secretary history")
-    public void testUpdateSecretaryHistory() throws Exception {
+     void testUpdateSecretaryHistory() throws Exception {
         when(secretaryHistoryService.patchSecretaryHistory(1L, secretaryHistoryDto)).thenReturn(secretaryHistoryDto);
         String body = om.writeValueAsString(secretaryHistoryDto);
 

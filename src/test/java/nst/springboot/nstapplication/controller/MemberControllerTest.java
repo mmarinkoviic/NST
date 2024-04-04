@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MemberController.class)
 
-public class MemberControllerTest {
+ class MemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,7 +57,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for saving an member")
-    public void testSaveMember() throws Exception {
+     void testSaveMember() throws Exception {
 
         when(memberService.save(any(MemberDto.class))).thenReturn(memberDto);
 
@@ -70,7 +70,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for fetching all members")
-    public void testGetAllMembers() throws Exception {
+     void testGetAllMembers() throws Exception {
         MemberDto memberDto1= MemberDto.builder()
                 .firstname("Jovan")
                 .lastname("Ćirić")
@@ -93,7 +93,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for finding member by id")
-    public void testFindByIdMember() throws Exception {
+     void testFindByIdMember() throws Exception {
         memberDto.setId(1L);
         when(memberService.findById(1L)).thenReturn(memberDto);
 
@@ -106,7 +106,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for deleting member")
-    public void testDeleteMember() throws Exception {
+     void testDeleteMember() throws Exception {
         doNothing().when(memberService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/member/{id}", 1L)
@@ -119,7 +119,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for updating a member")
-    public void testUpdateMember() throws Exception {
+     void testUpdateMember() throws Exception {
         Member member = Member.builder()
                 .id(1L)
                 .firstname("Jelena")
@@ -154,7 +154,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for getting all history of secretary")
-    public void testGetAllHistorySecretary() throws Exception {
+     void testGetAllHistorySecretary() throws Exception {
         List<SecretaryHistoryDto> secretaryHistories = Collections.singletonList(new SecretaryHistoryDto());
         when(memberService.getAllHistorySecretary(1L)).thenReturn(secretaryHistories);
 
@@ -165,7 +165,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for getting all history of head")
-    public void testGetAllHistoryHead() throws Exception {
+     void testGetAllHistoryHead() throws Exception {
         List<HeadHistoryDto> headHistories = Collections.singletonList(new HeadHistoryDto());
         when(memberService.getAllHistoryHead(1L)).thenReturn(headHistories);
 
@@ -176,7 +176,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("Test for getting all academic title history")
-    public void testGetAllAcademicTitleHistory() throws Exception {
+     void testGetAllAcademicTitleHistory() throws Exception {
         List<AcademicTitleHistoryDto> academicTitleHistories = Collections.singletonList(new AcademicTitleHistoryDto());
         when(memberService.getAllAcademicTitleHistory(1L)).thenReturn(academicTitleHistories);
 

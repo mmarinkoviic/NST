@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(AcademicTitleHistoryController.class)
-public class AcademicTitleHistoryControllerTest {
+class AcademicTitleHistoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class AcademicTitleHistoryControllerTest {
 
     @Test
     @DisplayName("Test for saving an academic title history")
-    public void testSaveAcademicTitleHistory() throws Exception {
+     void testSaveAcademicTitleHistory() throws Exception {
         om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
 
@@ -63,7 +63,7 @@ public class AcademicTitleHistoryControllerTest {
     }
     @Test
     @DisplayName("Test for fetching all academic title histories")
-    public void testGetAllAcademicTitleHistories() throws Exception {
+     void testGetAllAcademicTitleHistories() throws Exception {
         when(academicTitleHistoryService.getAll()).thenReturn(List.of(new AcademicTitleHistoryDto(), new AcademicTitleHistoryDto()));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/academicTitleHistory")
@@ -73,7 +73,7 @@ public class AcademicTitleHistoryControllerTest {
 
     @Test
     @DisplayName("Test for finding an academic title history by id")
-    public void testFindByIdAcademicTitleHistory() throws Exception {
+     void testFindByIdAcademicTitleHistory() throws Exception {
         AcademicTitleHistoryDto academicTitleHistoryDto = AcademicTitleHistoryDto.builder()
                 .id(1L)
                 .startDate(LocalDate.now())
@@ -99,7 +99,7 @@ public class AcademicTitleHistoryControllerTest {
 
     @Test
     @DisplayName("Test for updating an academic title history")
-    public void testUpdateAcademicTitleHistory() throws Exception {
+     void testUpdateAcademicTitleHistory() throws Exception {
         om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
         AcademicTitleHistoryDto academicTitleHistoryDto = AcademicTitleHistoryDto.builder()

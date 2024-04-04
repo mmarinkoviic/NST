@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AcademicTitleController.class)
-public class AcademicTitleControllerTest {
+ class AcademicTitleControllerTest {
 
 
     @Autowired
@@ -32,7 +32,7 @@ public class AcademicTitleControllerTest {
 
     @Test
     @DisplayName("Test for saving an academic title")
-    public void testSaveAcademicTitle() throws Exception {
+     void testSaveAcademicTitle() throws Exception {
 
         AcademicTitleDto academicTitleDto = new AcademicTitleDto();
         academicTitleDto.setName("Professor");
@@ -48,7 +48,7 @@ public class AcademicTitleControllerTest {
 
     @Test
     @DisplayName("Test for fetching all academic titles")
-    public void testGetAllAcademicTitle() throws Exception {
+     void testGetAllAcademicTitle() throws Exception {
         AcademicTitleDto academicTitleDto= AcademicTitleDto.builder().name("Professor").build();
         AcademicTitleDto academicTitleDto1= AcademicTitleDto.builder().name("Assistant").build();
 
@@ -64,7 +64,7 @@ public class AcademicTitleControllerTest {
 
     @Test
     @DisplayName("Test for finding academic title by id")
-    public void testFindByIdAcademicTitle() throws Exception {
+     void testFindByIdAcademicTitle() throws Exception {
         AcademicTitleDto academicTitleDto= AcademicTitleDto.builder().id(1L).name("Professor").build();
         when(academicTitleService.findById(1L)).thenReturn(academicTitleDto);
 
@@ -76,7 +76,7 @@ public class AcademicTitleControllerTest {
     }
     @Test
     @DisplayName("Test for partial updating academic title")
-    public void testPartialUpdate() throws Exception {
+     void testPartialUpdate() throws Exception {
         AcademicTitleDto updatedAcademicTitleDto= AcademicTitleDto.builder().id(1L).name("Professor").build();
         when(academicTitleService.partialUpdate(1L, getUpdates())).thenReturn(updatedAcademicTitleDto);
 

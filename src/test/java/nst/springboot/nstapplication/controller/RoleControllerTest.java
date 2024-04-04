@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(RoleController.class)
-public class RoleControllerTest {
+ class RoleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +32,7 @@ public class RoleControllerTest {
 
     @Test
     @DisplayName("Test for saving a role")
-    public void testSaveRole() throws Exception {
+     void testSaveRole() throws Exception {
         RoleDto roleDto = new RoleDto();
         roleDto.setName("Default");
 
@@ -46,7 +46,7 @@ public class RoleControllerTest {
 
     @Test
     @DisplayName("Test for fetching all roles")
-    public void testGetAllRoles() throws Exception {
+     void testGetAllRoles() throws Exception {
         RoleDto roleDto = RoleDto.builder().name("Default").build();
         RoleDto roleDto1 = RoleDto.builder().name("Secretary").build();
 
@@ -61,7 +61,7 @@ public class RoleControllerTest {
 
     @Test
     @DisplayName("Test for finding a role by id")
-    public void testFindByIdRole() throws Exception {
+     void testFindByIdRole() throws Exception {
         RoleDto roleDto = RoleDto.builder().id(1L).name("Secretary").build();
 
         when(roleService.findById(1L)).thenReturn(roleDto);
@@ -74,7 +74,7 @@ public class RoleControllerTest {
 
     @Test
     @DisplayName("Test for partial updating a role")
-    public void testPartialUpdate() throws Exception {
+     void testPartialUpdate() throws Exception {
         RoleDto updatedRoleDto = RoleDto.builder().id(1L).name("Secretary").build();
 
         when(roleService.partialUpdate(1L, getUpdates())).thenReturn(updatedRoleDto);

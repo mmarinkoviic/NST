@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(EducationTitleController.class)
-public class EducationTitleControllerTest {
+ class EducationTitleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class EducationTitleControllerTest {
 
     @Test
     @DisplayName("Test for saving an education title")
-    public void testSaveEducationTitle() throws Exception {
+     void testSaveEducationTitle() throws Exception {
         EducationTitleDto educationTitleDto = new EducationTitleDto();
         educationTitleDto.setName("Bachelor");
 
@@ -47,7 +47,7 @@ public class EducationTitleControllerTest {
 
     @Test
     @DisplayName("Test for fetching all education titles")
-    public void testGetAllEducationTitles() throws Exception {
+     void testGetAllEducationTitles() throws Exception {
         EducationTitleDto educationTitleDto = EducationTitleDto.builder().name("Bachelor").build();
         EducationTitleDto educationTitleDto1 = EducationTitleDto.builder().name("Master").build();
 
@@ -62,7 +62,7 @@ public class EducationTitleControllerTest {
 
     @Test
     @DisplayName("Test for finding an education title by id")
-    public void testFindByIdEducationTitle() throws Exception {
+     void testFindByIdEducationTitle() throws Exception {
         EducationTitleDto educationTitleDto = EducationTitleDto.builder().id(1L).name("Bachelor").build();
 
         when(educationTitleService.findById(1L)).thenReturn(educationTitleDto);
@@ -75,7 +75,7 @@ public class EducationTitleControllerTest {
 
     @Test
     @DisplayName("Test for partial updating an education title")
-    public void testPartialUpdate() throws Exception {
+     void testPartialUpdate() throws Exception {
         EducationTitleDto updatedEducationTitleDto = EducationTitleDto.builder().id(1L).name("Master").build();
 
         when(educationTitleService.partialUpdate(1L, getUpdates())).thenReturn(updatedEducationTitleDto);
