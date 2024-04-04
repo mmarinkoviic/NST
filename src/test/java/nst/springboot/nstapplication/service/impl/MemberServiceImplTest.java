@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 
-public class MemberServiceImplTest {
+ class MemberServiceImplTest {
 
     @Mock
     private MemberRepository memberRepository;
