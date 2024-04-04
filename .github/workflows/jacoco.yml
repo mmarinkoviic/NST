@@ -1,28 +1,31 @@
-name: JaCoCo Report
+name: Measure coverage
 
-on: [push]
+on:
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
         with:
-          java-version: '11'
+          java-version: 1.8
+      - name: Run Coverage
+        run: |
+          chmod +x gradlew
+          ./gradlew testCoverage
 
-      - name: Build and test with Maven
-        run: mvn clean test
-
-      - name: Generate JaCoCo Report
-        run: mvn jacoco:report
-
-      - name: Upload JaCoCo Report
-        uses: actions/upload-artifact@v2
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
         with:
-          name: jacoco-report
-          path: target/site/jacoco/index.html
+          paths: |
+            ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
