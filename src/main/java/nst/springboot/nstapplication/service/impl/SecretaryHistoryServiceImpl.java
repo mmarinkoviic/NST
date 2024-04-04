@@ -6,6 +6,8 @@ import nst.springboot.nstapplication.converter.impl.DepartmentConverter;
 import nst.springboot.nstapplication.converter.impl.MemberConverter;
 import nst.springboot.nstapplication.converter.impl.SecretaryHistoryConverter;
 import nst.springboot.nstapplication.domain.*;
+import nst.springboot.nstapplication.dto.DepartmentDto;
+import nst.springboot.nstapplication.dto.MemberDto;
 import nst.springboot.nstapplication.dto.SecretaryHistoryDto;
 import nst.springboot.nstapplication.exception.EmptyResponseException;
 import nst.springboot.nstapplication.exception.EntityNotFoundException;
@@ -38,122 +40,115 @@ public class SecretaryHistoryServiceImpl implements SecretaryHistoryService {
     @Override
     @Transactional
     public SecretaryHistoryDto save(SecretaryHistoryDto secretaryHistoryDTO) {
-        //Ako se posalje null za start date postavlja se danasnji
-        if(secretaryHistoryDTO.getStartDate() == null){
+        validateDates(secretaryHistoryDTO);
+
+        Optional<Member> existingMember = findOrCreateMember(secretaryHistoryDTO.getMember());
+        Optional<Department> existingDepartment = findOrCreateDepartment(secretaryHistoryDTO.getDepartment());
+
+        checkDepartmentMembership(existingDepartment, secretaryHistoryDTO.getMember().getDepartment());
+
+        List<SecretaryHistory> existingHistoryList = repository.findByDepartmentId(secretaryHistoryDTO.getDepartment().getId());
+        handleExistingHistories(existingHistoryList, secretaryHistoryDTO);
+
+        handleCurrentHead(existingMember, secretaryHistoryDTO);
+
+        setMemberRole(existingMember, secretaryHistoryDTO);
+
+        return secretaryHistoryConverter.toDto(repository.save(secretaryHistoryConverter.toEntity(secretaryHistoryDTO)));
+    }
+
+    private void validateDates(SecretaryHistoryDto secretaryHistoryDTO) {
+        if (secretaryHistoryDTO.getStartDate() == null) {
             secretaryHistoryDTO.setStartDate(LocalDate.now());
         }
-        //Ako je end date pre start date a
-        if (secretaryHistoryDTO.getEndDate() != null && secretaryHistoryDTO.getStartDate() != null
-                && secretaryHistoryDTO.getEndDate().isBefore(secretaryHistoryDTO.getStartDate())) {
+        if (secretaryHistoryDTO.getEndDate() != null && secretaryHistoryDTO.getEndDate().isBefore(secretaryHistoryDTO.getStartDate())) {
             throw new IllegalArgumentException("End date can't be before start date!");
         }
+    }
 
-        //Provera za clana, da li postoji
-        Optional<Member> existingMember;
-        if (secretaryHistoryDTO.getMember().getId() != null) {
-            existingMember = memberRepository.findById(secretaryHistoryDTO.getMember().getId());
-            if (existingMember.isPresent()) {
-                secretaryHistoryDTO.setMember(memberConverter.toDto(existingMember.get()));
-            } else {
-                throw new EntityNotFoundException("There is no member with that id!");
-            }
+    private Optional<Member> findOrCreateMember(MemberDto memberDto) {
+        if (memberDto.getId() != null) {
+            return memberRepository.findById(memberDto.getId());
         } else {
-            existingMember = memberRepository.findByFirstnameAndLastname(secretaryHistoryDTO.getMember().getFirstname(), secretaryHistoryDTO.getMember().getLastname());
+            Optional<Member> existingMember = memberRepository.findByFirstnameAndLastname(memberDto.getFirstname(), memberDto.getLastname());
             if (existingMember.isPresent()) {
-                secretaryHistoryDTO.setMember(memberConverter.toDto(existingMember.get()));
+                return existingMember;
             } else {
-                memberRepository.save(memberConverter.toEntity(secretaryHistoryDTO.getMember()));
-                Optional<Member> member = memberRepository.findByFirstnameAndLastname(secretaryHistoryDTO.getMember().getFirstname(), secretaryHistoryDTO.getMember().getLastname());
-                if (member.isPresent()) {
-                    secretaryHistoryDTO.setMember(memberConverter.toDto(member.get()));
-                }
+                Member newMember = memberRepository.save(memberConverter.toEntity(memberDto));
+                return Optional.of(newMember);
             }
         }
-        //Provera za katedru i da li clan pripada toj katedri
-        Optional<Department> existingDepartment;
-        if (secretaryHistoryDTO.getDepartment().getId() != null) {
-            existingDepartment = departmentRepository.findById(secretaryHistoryDTO.getDepartment().getId());
-            if (existingDepartment.isPresent()) {
-                if (!secretaryHistoryDTO.getMember().getDepartment().getId().equals(secretaryHistoryDTO.getDepartment().getId())) {
-                    throw new IllegalArgumentException("Member is not in that department! He is in  " + secretaryHistoryDTO.getMember().getDepartment().getName() + ".");
-                }
-                secretaryHistoryDTO.setDepartment(departmentConverter.toDto(existingDepartment.get()));
-            } else {
-                throw new EntityNotFoundException("There is no department with that id!");
-            }
-        } else {
-            existingDepartment = departmentRepository.findByName(secretaryHistoryDTO.getDepartment().getName());
-            if (existingDepartment.isPresent()) {
-                if (!secretaryHistoryDTO.getMember().getDepartment().getId().equals(existingDepartment.get().getId())) {
-                    throw new IllegalArgumentException("Member is not in that department! He is in  " + secretaryHistoryDTO.getMember().getDepartment().getName() + ".");
-                }
-                secretaryHistoryDTO.setDepartment(departmentConverter.toDto(existingDepartment.get()));
-            } else {
-                departmentRepository.save(departmentConverter.toEntity(secretaryHistoryDTO.getDepartment()));
-                Optional<Department> department = departmentRepository.findByName(secretaryHistoryDTO.getDepartment().getName());
-                if (department.isPresent()) {
-                    secretaryHistoryDTO.setDepartment(departmentConverter.toDto(department.get()));
-                }
+    }
 
+    private Optional<Department> findOrCreateDepartment(DepartmentDto departmentDto) {
+        if (departmentDto.getId() != null) {
+            return departmentRepository.findById(departmentDto.getId());
+        } else {
+            Optional<Department> existingDepartment = departmentRepository.findByName(departmentDto.getName());
+            if (existingDepartment.isPresent()) {
+                return existingDepartment;
+            } else {
+                Department newDepartment = departmentRepository.save(departmentConverter.toEntity(departmentDto));
+                return Optional.of(newDepartment);
             }
         }
-
-        //Lista istorija za konkretnu katedru
-        List<SecretaryHistory> existingHistoryList = repository.findByDepartmentId(secretaryHistoryDTO.getDepartment().getId());
-
-        //Ukoliko se posalje end date null, a postoji trenutno aktivni sekretar, a
-        // prosledjeni start date je nakon tog postojeceg
-        // postojeci se setuje end date na sadasnji
-        // u drugom slucaju exc
+    }
+    private void handleExistingHistories(List<SecretaryHistory> existingHistoryList, SecretaryHistoryDto secretaryHistoryDTO) {
         for (SecretaryHistory existingHistory : existingHistoryList) {
             Optional<Member> member = memberRepository.findById(existingHistory.getMember().getId());
             if (secretaryHistoryDTO.getEndDate() == null && existingHistory.getEndDate() == null) {
-                if(secretaryHistoryDTO.getStartDate().isAfter(existingHistory.getStartDate())){
+                if (secretaryHistoryDTO.getStartDate().isAfter(existingHistory.getStartDate())) {
                     existingHistory.setEndDate(secretaryHistoryDTO.getStartDate());
                     Optional<Member> activeMember = memberRepository.findById(existingHistory.getMember().getId());
-                    if(activeMember.isPresent()){
+                    if (activeMember.isPresent()) {
                         activeMember.get().setRole(Role.builder().id(ConstantsCustom.DEFAULT_ROLE_ID).name(ConstantsCustom.DEFAULT_ROLE).build());
                         memberService.patchUpdateMember(activeMember.get().getId(), activeMember.get());
                         repository.save(existingHistory);
                     }
-                }
-                else{
-                    throw new IllegalArgumentException("Member "+existingHistory.getMember().getFirstname()+
-                            " "+existingHistory.getMember().getLastname()+" is at the SECRETARY postion from "+
+                } else {
+                    throw new IllegalArgumentException("Member " + existingHistory.getMember().getFirstname() +
+                            " " + existingHistory.getMember().getLastname() + " is at the SECRETARY position from " +
                             existingHistory.getStartDate());
                 }
 
             }
-            //Ukoliko su oba datuma poslata, provera da li postoji preklapanja medju sadasnjim istorijama
             if (existingHistory.getStartDate() != null && existingHistory.getEndDate() != null && secretaryHistoryDTO.getStartDate() != null && secretaryHistoryDTO.getEndDate() != null) {
                 if (isDateOverlap(existingHistory.getStartDate(), existingHistory.getEndDate(),
                         secretaryHistoryDTO.getStartDate(), secretaryHistoryDTO.getEndDate())) {
-                    throw new IllegalArgumentException("The member " +( member.isPresent()? member.get().getFirstname() : " ")+ " " +
-                           (member.isPresent() ?  member.get().getLastname() : " ") +
+                    throw new IllegalArgumentException("The member " + (member.isPresent() ? member.get().getFirstname() : " ") + " " +
+                            (member.isPresent() ? member.get().getLastname() : " ") +
                             " already was at the SECRETARY position from " + existingHistory.getStartDate() + " to " + existingHistory.getEndDate() +
                             " in department " + secretaryHistoryDTO.getDepartment().getName());
                 }
             }
         }
+    }
 
-        //Provera da li je clan trenutno na poziciji šefa
+    private void handleCurrentHead(Optional<Member> existingMember, SecretaryHistoryDto secretaryHistoryDTO) {
         Optional<HeadHistory> activeHead = headHistoryRepository.findCurrentByMemberId(secretaryHistoryDTO.getMember().getId());
-        if(activeHead.isPresent()) {
-            if (secretaryHistoryDTO.getEndDate()==null &&
-                    ( secretaryHistoryDTO.getStartDate().isAfter(activeHead.get().getStartDate()) ||  secretaryHistoryDTO.getStartDate().isEqual(activeHead.get().getStartDate()))){
-                throw new IllegalArgumentException("Member "+secretaryHistoryDTO.getMember().getFirstname()+" "+secretaryHistoryDTO.getMember().getLastname()+" " +
-                        "can't be SECRETARY because member is at the HEAD position from "+activeHead.get().getStartDate()+ " for department "+activeHead.get().getDepartment().getName());
+        if (activeHead.isPresent()) {
+            if (secretaryHistoryDTO.getEndDate() == null &&
+                    (secretaryHistoryDTO.getStartDate().isAfter(activeHead.get().getStartDate()) || secretaryHistoryDTO.getStartDate().isEqual(activeHead.get().getStartDate()))) {
+                throw new IllegalArgumentException("Member " + secretaryHistoryDTO.getMember().getFirstname() + " " + secretaryHistoryDTO.getMember().getLastname() + " " +
+                        "can't be SECRETARY because member is at the HEAD position from " + activeHead.get().getStartDate() + " for department " + activeHead.get().getDepartment().getName());
             }
 
         }
-        if(secretaryHistoryDTO.getStartDate()!=null &&
-            (secretaryHistoryDTO.getStartDate().isBefore(LocalDate.now()) || secretaryHistoryDTO.getStartDate().isEqual(LocalDate.now())) &&
-            (secretaryHistoryDTO.getEndDate()==null || secretaryHistoryDTO.getEndDate().isAfter(LocalDate.now())) ){
-           existingMember.get().setRole(Role.builder().name(ConstantsCustom.SECRETARY).id(ConstantsCustom.SECRETARY_ROLE_ID).build());
-           secretaryHistoryDTO.setMember(memberService.patchUpdateMember(existingMember.get().getId(),existingMember.get()));
-        }
+    }
 
-        return secretaryHistoryConverter.toDto(repository.save(secretaryHistoryConverter.toEntity(secretaryHistoryDTO)));
+    private void setMemberRole(Optional<Member> existingMember, SecretaryHistoryDto secretaryHistoryDTO) {
+        if (secretaryHistoryDTO.getStartDate() != null &&
+                (secretaryHistoryDTO.getStartDate().isBefore(LocalDate.now()) || secretaryHistoryDTO.getStartDate().isEqual(LocalDate.now())) &&
+                (secretaryHistoryDTO.getEndDate() == null || secretaryHistoryDTO.getEndDate().isAfter(LocalDate.now()))) {
+            existingMember.get().setRole(Role.builder().name(ConstantsCustom.SECRETARY).id(ConstantsCustom.SECRETARY_ROLE_ID).build());
+            secretaryHistoryDTO.setMember(memberService.patchUpdateMember(existingMember.get().getId(), existingMember.get()));
+        }
+    }
+
+    private void checkDepartmentMembership(Optional<Department> existingDepartment, DepartmentDto memberDepartment) {
+        if (!existingDepartment.isPresent() || !existingDepartment.get().getId().equals(memberDepartment.getId())) {
+            throw new IllegalArgumentException("Member is not in the specified department!");
+        }
     }
 
     public boolean isDateOverlap(LocalDate startDate1, LocalDate endDate1, LocalDate startDate2, LocalDate endDate2) {
