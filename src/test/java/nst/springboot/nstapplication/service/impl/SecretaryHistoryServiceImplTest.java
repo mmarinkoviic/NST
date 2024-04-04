@@ -20,10 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -412,6 +409,126 @@ import static org.mockito.Mockito.when;
         endDate2 = LocalDate.of(2022, 1, 10);
 
         assertFalse(secretaryHistoryService.isDateOverlap(startDate1, endDate1, startDate2, endDate2));
+    }
+
+
+    @Test
+    @DisplayName("JUnit test for saving secretary history with existing member but different department")
+    void testSaveWithExistingMemberButDifferentDepartment() {
+        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
+        secretaryHistoryDto.setStartDate(LocalDate.now());
+        secretaryHistoryDto.setEndDate(null);
+
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setId(2L); // Assuming a different department ID
+        departmentDto.setName("Different Department");
+
+        MemberDto existingMemberDto = MemberDto.builder().id(1L).department(departmentDto).build();
+        secretaryHistoryDto.setMember(existingMemberDto);
+
+        Department existingDepartment = new Department();
+        existingDepartment.setId(1L);
+        existingDepartment.setName("Department A");
+
+        Member existingMember = new Member();
+        existingMember.setId(1L);
+        existingMember.setDepartment(existingDepartment);
+
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
+        when(memberConverter.toDto(existingMember)).thenReturn(existingMemberDto);
+
+        when(departmentRepository.findById(2L)).thenReturn(Optional.of(new Department()));
+        when(departmentConverter.toDto(any(Department.class))).thenReturn(departmentDto);
+
+        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
+        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(existingMemberDto);
+
+        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
+        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
+
+        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
+
+        assertNotNull(result);
+        assertNotNull(result.getStartDate());
+        assertEquals(LocalDate.now(), result.getStartDate());
+        assertNull(result.getEndDate());
+        assertEquals(existingMemberDto, result.getMember());
+        assertEquals(departmentDto, result.getDepartment());
+    }
+
+    @Test
+    @DisplayName("JUnit test for saving secretary history with existing department but different name")
+    void testSaveWithExistingDepartmentButDifferentName() {
+        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
+        secretaryHistoryDto.setStartDate(LocalDate.now());
+        secretaryHistoryDto.setEndDate(null);
+
+        DepartmentDto existingDepartmentDto = new DepartmentDto();
+        existingDepartmentDto.setId(1L);
+        existingDepartmentDto.setName("Department A");
+
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setId(1L);
+        departmentDto.setName("Different Name"); // Assuming a different department name
+
+        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
+        secretaryHistoryDto.setMember(memberDto);
+
+        Member existingMember = new Member();
+        existingMember.setId(1L);
+
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
+        when(memberConverter.toDto(existingMember)).thenReturn(memberDto);
+
+        when(departmentRepository.findById(1L)).thenReturn(Optional.of(new Department()));
+        when(departmentConverter.toDto(any(Department.class))).thenReturn(existingDepartmentDto);
+
+        when(secretaryHistoryRepository.findByDepartmentId(anyLong())).thenReturn(new ArrayList<>());
+        when(secretaryHistoryRepository.save(any(SecretaryHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        when(memberService.patchUpdateMember(1L, existingMember)).thenReturn(memberDto);
+
+        when(secretaryHistoryConverter.toDto(any(SecretaryHistory.class))).thenReturn(secretaryHistoryDto);
+        when(secretaryHistoryConverter.toEntity(secretaryHistoryDto)).thenReturn(new SecretaryHistory());
+
+        SecretaryHistoryDto result = secretaryHistoryService.save(secretaryHistoryDto);
+
+        assertNotNull(result);
+        assertNotNull(result.getStartDate());
+        assertEquals(LocalDate.now(), result.getStartDate());
+        assertNull(result.getEndDate());
+        assertEquals(memberDto, result.getMember());
+        assertEquals(existingDepartmentDto, result.getDepartment());
+    }
+
+    @Test
+    @DisplayName("JUnit test for saving secretary history with overlapping existing history")
+    void testSaveWithOverlappingHistory() {
+        SecretaryHistoryDto secretaryHistoryDto = new SecretaryHistoryDto();
+        secretaryHistoryDto.setStartDate(LocalDate.now());
+        secretaryHistoryDto.setEndDate(LocalDate.now().plusDays(10)); // Assuming end date 10 days after start date
+
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setId(1L);
+        departmentDto.setName("Department A");
+
+        MemberDto memberDto = MemberDto.builder().id(1L).department(departmentDto).build();
+        secretaryHistoryDto.setMember(memberDto);
+        secretaryHistoryDto.setDepartment(departmentDto);
+
+        SecretaryHistory existingHistory = new SecretaryHistory();
+        existingHistory.setId(1L);
+        existingHistory.setStartDate(LocalDate.now().minusDays(5)); // Existing history with start date 5 days before current start date
+        existingHistory.setEndDate(LocalDate.now().plusDays(5)); // Existing history with end date 5 days after current start date
+
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(new Member()));
+        when(secretaryHistoryRepository.findByDepartmentId(1L)).thenReturn(Collections.singletonList(existingHistory));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> secretaryHistoryService.save(secretaryHistoryDto));
+
+        assertEquals("The member already was at the SECRETARY position from " + existingHistory.getStartDate() + " to " + existingHistory.getEndDate() + " in department " + departmentDto.getName(), exception.getMessage());
     }
 
 }
