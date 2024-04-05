@@ -233,45 +233,6 @@ import static org.mockito.Mockito.*;
         assertThrows(EmptyResponseException.class, () -> headHistoryService.getHistoryForDepartmentId(departmentId));
     }
 
-    @Test
-    @DisplayName("JUnit test for patching head history")
-    void testPatchHeadHistory() {
-        Long headHistoryId = 1L;
-        HeadHistoryDto headHistoryDto = new HeadHistoryDto();
-        headHistoryDto.setStartDate(LocalDate.now().minusDays(1));
-        headHistoryDto.setEndDate(null);
-        headHistoryDto.setHead(MemberDto.builder().id(1L).build());
-        headHistoryDto.setDepartment(DepartmentDto.builder().id(1L).build());
-
-        Member existingMember = new Member();
-        existingMember.setId(1L);
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(existingMember));
-
-        Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(existingDepartment));
-
-        HeadHistory existingHeadHistory = new HeadHistory();
-        existingHeadHistory.setId(headHistoryId);
-        existingHeadHistory.setStartDate(LocalDate.now().minusDays(2));
-        existingHeadHistory.setEndDate(null);
-        existingHeadHistory.setMember(existingMember);
-        existingHeadHistory.setDepartment(existingDepartment);
-        when(headHistoryRepository.findById(headHistoryId)).thenReturn(Optional.of(existingHeadHistory));
-
-        when(headHistoryRepository.save(any(HeadHistory.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(memberConverter.toDto(existingMember)).thenReturn(headHistoryDto.getHead());
-        when(departmentConverter.toDto(existingDepartment)).thenReturn(headHistoryDto.getDepartment());
-
-        when(memberService.patchUpdateMember(existingMember.getId(), existingMember)).thenReturn(headHistoryDto.getHead());
-
-        when(headHistoryConverter.toDto(existingHeadHistory)).thenReturn(headHistoryDto);
-        HeadHistoryDto result = headHistoryService.patchHeadHistory(headHistoryId, headHistoryDto);
-
-        assertNotNull(result);
-        assertEquals(headHistoryDto, result);
-    }
 
     @Test
     @DisplayName("JUnit test for saving head history")

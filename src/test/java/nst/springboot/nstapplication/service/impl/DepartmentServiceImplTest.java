@@ -1,5 +1,6 @@
 package nst.springboot.nstapplication.service.impl;
 
+import nst.springboot.nstapplication.constants.ConstantsCustom;
 import nst.springboot.nstapplication.converter.impl.DepartmentConverter;
 import nst.springboot.nstapplication.converter.impl.HeadHistoryConverter;
 import nst.springboot.nstapplication.converter.impl.MemberConverter;
@@ -462,4 +463,41 @@ import static org.mockito.Mockito.*;
 
         assertThrows(EntityNotFoundException.class, () -> departmentService.getActiveSecretaryForDepartment(departmentId));
     }
+
+
+    @Test
+    public void testGetActiveSecretaryForDepartment_DepartmentNotFound() {
+        Long departmentId = 1L;
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            departmentService.getActiveSecretaryForDepartment(departmentId);
+        });
+
+        assertEquals(ConstantsCustom.NO_DEPARTMENT_FIND + departmentId, exception.getMessage());
+
+        verify(departmentRepository, times(1)).findById(departmentId);
+        verifyNoInteractions(secretaryHistoryRepository);
+        verifyNoInteractions(memberConverter);
+    }
+
+
+    @Test
+    public void testGetActiveHeadForDepartment_DepartmentNotFound() {
+        Long departmentId = 1L;
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            departmentService.getActiveHeadForDepartment(departmentId);
+        });
+
+        assertEquals(ConstantsCustom.NO_DEPARTMENT_FIND + departmentId, exception.getMessage());
+
+        verify(departmentRepository, times(1)).findById(departmentId);
+        verifyNoInteractions(secretaryHistoryRepository);
+        verifyNoInteractions(memberConverter);
+    }
+
 }

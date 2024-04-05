@@ -39,11 +39,7 @@ public class HeadHistoryController {
         return new ResponseEntity<>("Head history removed!", HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<HeadHistoryDto> updateHeadHistory(@PathVariable Long id, @RequestBody HeadHistoryDto headHistoryDto) {
-        HeadHistoryDto updatedHeadHistory = service.patchHeadHistory(id, headHistoryDto);
-        return new ResponseEntity<>(updatedHeadHistory, HttpStatus.OK);
-    }
+
 
 
 }

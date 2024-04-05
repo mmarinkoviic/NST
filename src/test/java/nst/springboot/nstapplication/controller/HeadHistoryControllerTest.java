@@ -97,17 +97,7 @@ import static org.mockito.Mockito.when;
                 .andExpect(MockMvcResultMatchers.content().string("Head history removed!"));
     }
 
-    @Test
-    @DisplayName("Test for updating a head history")
-     void testUpdateHeadHistory() throws Exception {
-        when(headHistoryService.patchHeadHistory(1L, headHistoryDto)).thenReturn(headHistoryDto);
-        String body = om.writeValueAsString(headHistoryDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/head/{id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
 
 
 }
