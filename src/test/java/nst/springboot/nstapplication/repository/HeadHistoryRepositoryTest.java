@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         HeadHistory savedHeadHistory = headHistoryRepository.save(headHistory);
 
         assertThat(savedHeadHistory).isNotNull();
-        assertThat(savedHeadHistory.getId()).isGreaterThan(0);
+        assertThat(savedHeadHistory.getId()).isPositive();
     }
     @Test
     @DisplayName("JUnit test for find all head histories operation")

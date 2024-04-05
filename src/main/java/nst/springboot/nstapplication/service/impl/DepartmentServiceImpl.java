@@ -124,7 +124,6 @@ public class DepartmentServiceImpl implements DepartmentService {
               }
               if(secretaryHistory.getEndDate()==null &&
                       (secretaryHistory.getStartDate().isBefore(currentDate) || secretaryHistory.getStartDate().isEqual(currentDate)) ){
-                  System.out.println(secretaryHistory.getStartDate());
                   memberDtoEndNull= memberConverter.toDto(secretaryHistory.getMember());
               }
           }
@@ -160,7 +159,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                 }
                 if(headHistory.getEndDate()==null &&
                         (headHistory.getStartDate().isBefore(currentDate) || headHistory.getStartDate().isEqual(currentDate)) ){
-                    System.out.println(headHistory.getStartDate());
                     memberDtoEndNull= memberConverter.toDto(headHistory.getMember());
                 }
             }

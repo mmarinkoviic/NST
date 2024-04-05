@@ -199,8 +199,9 @@ import static org.mockito.Mockito.*;
 
         List<DepartmentDto> departmentList  = departmentService.getAll();
 
-        assertThat(departmentList).isNotNull();
-        assertThat(departmentList).hasSize(2);
+        assertThat(departmentList)
+                .isNotNull()
+                .hasSize(2);
 
 
     }

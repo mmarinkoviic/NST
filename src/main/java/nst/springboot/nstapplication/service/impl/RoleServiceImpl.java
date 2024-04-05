@@ -57,12 +57,10 @@ public class RoleServiceImpl implements RoleService {
         if (existingRole.isPresent()) {
             Role role = existingRole.get();
             updates.forEach((key, value) -> {
-                switch (key) {
-                    case "name":
-                        role.setName(value);
-                        break;
-
+                if ("name".equals(key)) {
+                    role.setName(value);
                 }
+
             });
             roleRepository.save(role);
             return roleConverter.toDto(role);
