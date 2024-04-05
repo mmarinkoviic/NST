@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
-public class SecretaryHistoryRepositoryTest {
+ class SecretaryHistoryRepositoryTest {
 
     @Autowired
     private SecretaryHistoryRepository secretaryHistoryRepository;
@@ -45,16 +45,16 @@ public class SecretaryHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save secretary history operation")
-    public void givenSecretaryHistoryObject_whenSave_thenReturnSaveSecretaryHistory(){
+     void givenSecretaryHistoryObject_whenSave_thenReturnSaveSecretaryHistory(){
 
         SecretaryHistory savedSecretaryHistory = secretaryHistoryRepository.save(secretaryHistory);
 
         assertThat(savedSecretaryHistory).isNotNull();
-        assertThat(savedSecretaryHistory.getId()).isGreaterThan(0);
+        assertThat(savedSecretaryHistory.getId()).isPositive();
     }
     @Test
     @DisplayName("JUnit test for find all secretary histories operation")
-    public void givenSecretaryHistoryList_whenFindAll_thenSecretaryHistoryList(){
+     void givenSecretaryHistoryList_whenFindAll_thenSecretaryHistoryList(){
 
         Department department = Department.builder()
                 .name("Katedra za informacione tehnologije")
@@ -90,7 +90,7 @@ public class SecretaryHistoryRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id secretary history operation")
-    public void givenSecretaryHistoryId_whenFindById_thenReturnSecretaryHistoryIdObject(){
+     void givenSecretaryHistoryId_whenFindById_thenReturnSecretaryHistoryIdObject(){
         SecretaryHistory savedSecretaryHistory = secretaryHistoryRepository.save(secretaryHistory);
 
         SecretaryHistory findSecretaryHistory = secretaryHistoryRepository.findById(savedSecretaryHistory.getId()).get();
@@ -99,7 +99,7 @@ public class SecretaryHistoryRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete secretary history operation")
-    public void givenSecretaryHistoryObject_whenDelete_thenRemoveSecretaryHistory() {
+     void givenSecretaryHistoryObject_whenDelete_thenRemoveSecretaryHistory() {
         secretaryHistoryRepository.save(secretaryHistory);
 
         secretaryHistoryRepository.deleteById(secretaryHistory.getId());
@@ -110,7 +110,7 @@ public class SecretaryHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding current secretary history by member id")
-    public void givenMemberId_whenFindCurrentByMemberId_thenReturnSecretaryHistoryObject(){
+     void givenMemberId_whenFindCurrentByMemberId_thenReturnSecretaryHistoryObject(){
 
         //end date is null, sending member id
 
@@ -150,7 +150,7 @@ public class SecretaryHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding current secretary history by department id")
-    public void givenMemberId_whenFindCurrentSecretaryByDepartmentId_thenReturnSecretaryHistoryObject(){
+     void givenMemberId_whenFindCurrentSecretaryByDepartmentId_thenReturnSecretaryHistoryObject(){
 
         //end date is null, sending department id
 
@@ -190,7 +190,7 @@ public class SecretaryHistoryRepositoryTest {
 
     @Test
     @DisplayName("Test for finding secretary histories by department id and ordering by date")
-    public void givenDepartmentId_whenFindByDepartmentIdOrderByDate_thenReturnSecretaryHistoryList() {
+     void givenDepartmentId_whenFindByDepartmentIdOrderByDate_thenReturnSecretaryHistoryList() {
 
         Department department = Department.builder()
                 .name("Katedra za informacione tehnologije")
@@ -221,7 +221,7 @@ public class SecretaryHistoryRepositoryTest {
         List<SecretaryHistory> secretaryHistories = secretaryHistoryRepository.findByDepartmentIdOrderByDate(department.getId());
 
         assertThat(secretaryHistories).isNotNull();
-        assertThat(secretaryHistories.size()).isGreaterThanOrEqualTo(1);
+        assertThat(secretaryHistories.size()).isPositive();
 
         LocalDate previousStartDate = LocalDate.now();
         for (SecretaryHistory secretaryHistory : secretaryHistories) {

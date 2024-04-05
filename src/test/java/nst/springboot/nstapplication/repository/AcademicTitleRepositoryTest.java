@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class AcademicTitleRepositoryTest {
+ class AcademicTitleRepositoryTest {
 
 
 
@@ -31,17 +31,17 @@ public class AcademicTitleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save academic title operation")
-    public void givenAcademicTitleObject_whenSave_thenReturnSaveAcademicTitle(){
+     void givenAcademicTitleObject_whenSave_thenReturnSaveAcademicTitle(){
 
         AcademicTitle savedAcademicTitle = academicTitleRepository.save(academicTitle);
 
         assertThat(savedAcademicTitle).isNotNull();
-        assertThat(savedAcademicTitle.getId()).isGreaterThan(0);
+        assertThat(savedAcademicTitle.getId()).isPositive();
         assertEquals(savedAcademicTitle.getName(), academicTitle.getName());
     }
     @Test
     @DisplayName("JUnit test for find all academic title operation")
-    public void givenAcademicList_whenFindAll_thenAcademicList(){
+     void givenAcademicList_whenFindAll_thenAcademicList(){
         AcademicTitle academicTitle1= AcademicTitle.builder().name("Teaching Assistant").build();
         AcademicTitle academicTitle2= AcademicTitle.builder().name("Senior Teaching Assistant").build();
 
@@ -56,7 +56,7 @@ public class AcademicTitleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id academic title operation")
-    public void givenAcademicTitleId_whenFindById_thenReturnAcademicTitleIdObject(){
+     void givenAcademicTitleId_whenFindById_thenReturnAcademicTitleIdObject(){
         AcademicTitle savedAcademicTitle = academicTitleRepository.save(academicTitle);
 
         AcademicTitle findAcTitle = academicTitleRepository.findById(savedAcademicTitle.getId()).get();
@@ -65,7 +65,7 @@ public class AcademicTitleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete academic title operation")
-    public void givenAcademicObject_whenDelete_thenRemoveAcademic() {
+     void givenAcademicObject_whenDelete_thenRemoveAcademic() {
         academicTitleRepository.save(academicTitle);
 
         academicTitleRepository.deleteById(academicTitle.getId());
@@ -76,7 +76,7 @@ public class AcademicTitleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding academic title by name")
-    public void givenAcademicTitleName_whenFindByName_thenReturnAcademicTitleObject(){
+     void givenAcademicTitleName_whenFindByName_thenReturnAcademicTitleObject(){
         academicTitleRepository.save(academicTitle);
 
         AcademicTitle academicTitleDb = academicTitleRepository.findByName("Teaching Assistant").get();

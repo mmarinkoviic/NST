@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class RoleRepositoryTest {
+ class RoleRepositoryTest {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -29,17 +29,17 @@ public class RoleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save role operation")
-    public void givenRoleObject_whenSave_thenReturnSaveRole(){
+     void givenRoleObject_whenSave_thenReturnSaveRole(){
 
         Role savedRole = roleRepository.save(role);
 
         assertThat(savedRole).isNotNull();
-        assertThat(savedRole.getId()).isGreaterThan(0);
+        assertThat(savedRole.getId()).isPositive();
         assertEquals(role.getName(), savedRole.getName());
     }
     @Test
     @DisplayName("JUnit test for find all roles operation")
-    public void givenRoleList_whenFindAll_thenRoleList(){
+     void givenRoleList_whenFindAll_thenRoleList(){
         Role role1= Role.builder().name("Secretary").build();
         Role role2= Role.builder().name("Default").build();
 
@@ -54,7 +54,7 @@ public class RoleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id role operation")
-    public void givenRoleId_whenFindById_thenReturnRoleObject(){
+     void givenRoleId_whenFindById_thenReturnRoleObject(){
         Role savedRole = roleRepository.save(role);
 
         Role findRole = roleRepository.findById(savedRole.getId()).get();
@@ -63,7 +63,7 @@ public class RoleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete role operation")
-    public void givenRoleObject_whenDelete_thenRemoveRole() {
+     void givenRoleObject_whenDelete_thenRemoveRole() {
         roleRepository.save(role);
 
         roleRepository.deleteById(role.getId());
@@ -74,7 +74,7 @@ public class RoleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding role by name")
-    public void givenRoleName_whenFindByName_thenReturnRoleObject(){
+     void givenRoleName_whenFindByName_thenReturnRoleObject(){
         roleRepository.save(role);
 
         Role roleDb = roleRepository.findByName("Default").get();

@@ -36,7 +36,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class DepartmentServiceImplTest {
+ class DepartmentServiceImplTest {
 
     @Mock
     private  DepartmentConverter departmentConverter;
@@ -200,7 +200,8 @@ public class DepartmentServiceImplTest {
         List<DepartmentDto> departmentList  = departmentService.getAll();
 
         assertThat(departmentList).isNotNull();
-        assertThat(departmentList.size()).isEqualTo(2);
+        assertThat(departmentList).hasSize(2);
+
 
     }
     @Test

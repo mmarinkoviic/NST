@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class AcademicTitleHistoryRepositoryTest {
+ class AcademicTitleHistoryRepositoryTest {
 
     @Autowired
     private AcademicTitleHistoryRepository academicTitleHistoryRepository;
@@ -63,11 +63,11 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save academic title history operation")
-    public void givenAcademicTitleHistoryObject_whenSave_thenReturnSavedAcademicTitleHistory() {
+     void givenAcademicTitleHistoryObject_whenSave_thenReturnSavedAcademicTitleHistory() {
         AcademicTitleHistory savedAcademicTitleHistory = academicTitleHistoryRepository.save(academicTitleHistory);
 
         assertThat(savedAcademicTitleHistory).isNotNull();
-        assertThat(savedAcademicTitleHistory.getId()).isGreaterThan(0);
+        assertThat(savedAcademicTitleHistory.getId()).isPositive();
         assertEquals(savedAcademicTitleHistory.getStartDate(), academicTitleHistory.getStartDate());
         assertEquals(savedAcademicTitleHistory.getMember(), academicTitleHistory.getMember());
         assertEquals(savedAcademicTitleHistory.getAcademicTitle(), academicTitleHistory.getAcademicTitle());
@@ -76,7 +76,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find all academic title history operation")
-    public void givenAcademicTitleHistoryList_whenFindAll_thenReturnAcademicTitleHistoryList() {
+     void givenAcademicTitleHistoryList_whenFindAll_thenReturnAcademicTitleHistoryList() {
         AcademicTitleHistory academicTitleHistory1 = AcademicTitleHistory.builder()
                 .startDate(LocalDate.now().minusYears(1))
                 .member(member)
@@ -101,7 +101,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find by id academic title history operation")
-    public void givenAcademicTitleHistoryId_whenFindById_thenReturnAcademicTitleHistoryObject() {
+     void givenAcademicTitleHistoryId_whenFindById_thenReturnAcademicTitleHistoryObject() {
         AcademicTitleHistory savedAcademicTitleHistory = academicTitleHistoryRepository.save(academicTitleHistory);
 
         AcademicTitleHistory foundAcademicTitleHistory = academicTitleHistoryRepository.findById(savedAcademicTitleHistory.getId()).get();
@@ -111,7 +111,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for delete academic title history operation")
-    public void givenAcademicTitleHistoryObject_whenDelete_thenRemoveAcademicTitleHistory() {
+     void givenAcademicTitleHistoryObject_whenDelete_thenRemoveAcademicTitleHistory() {
         academicTitleHistoryRepository.save(academicTitleHistory);
 
         academicTitleHistoryRepository.deleteById(academicTitleHistory.getId());
@@ -122,7 +122,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find all academic title histories for a member, ordered by start date desc")
-    public void givenMemberId_whenFindAllByMemberIdOrderByStartDateDesc_thenReturnOrderedAcademicTitleHistories() {
+     void givenMemberId_whenFindAllByMemberIdOrderByStartDateDesc_thenReturnOrderedAcademicTitleHistories() {
         academicTitleHistoryRepository.save(academicTitleHistory);
 
         AcademicTitleHistory newerAcademicTitleHistory = AcademicTitleHistory.builder()
@@ -143,7 +143,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find all academic title histories for a member with non-null end date")
-    public void givenMemberId_whenFindAllByMemberIdAndEndDateNotNull_thenReturnAcademicTitleHistories() {
+     void givenMemberId_whenFindAllByMemberIdAndEndDateNotNull_thenReturnAcademicTitleHistories() {
         AcademicTitleHistory academicTitleHistory = AcademicTitleHistory.builder()
                 .startDate(LocalDate.now().minusYears(1))
                 .endDate(LocalDate.now().plusYears(5))
@@ -162,7 +162,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find all academic title histories for a member with null end date - current academic title")
-    public void givenMemberId_whenFindAllByMemberIdAndEndDateNull_thenReturnAcademicTitleHistories() {
+     void givenMemberId_whenFindAllByMemberIdAndEndDateNull_thenReturnAcademicTitleHistories() {
         AcademicTitleHistory academicTitleHistory = AcademicTitleHistory.builder()
                 .startDate(LocalDate.now().minusYears(1))
                 .endDate(null)
@@ -179,7 +179,7 @@ public class AcademicTitleHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find all academic title histories for a member, ordered by start date")
-    public void givenMemberId_whenFindAllByMemberIdOrderByStartDate_thenReturnOrderedAcademicTitleHistories() {
+     void givenMemberId_whenFindAllByMemberIdOrderByStartDate_thenReturnOrderedAcademicTitleHistories() {
         academicTitleHistoryRepository.save(academicTitleHistory);
 
         AcademicTitleHistory newerAcademicTitleHistory = AcademicTitleHistory.builder()

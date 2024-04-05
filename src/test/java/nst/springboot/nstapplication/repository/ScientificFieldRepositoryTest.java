@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class ScientificFieldRepositoryTest {
+ class ScientificFieldRepositoryTest {
 
     @Autowired
     private ScientificFieldRepository scientificFieldRepository;
@@ -28,17 +28,17 @@ public class ScientificFieldRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save scientific field operation")
-    public void givenScientificFieldObject_whenSave_thenReturnSavedScientificField() {
+     void givenScientificFieldObject_whenSave_thenReturnSavedScientificField() {
         ScientificField savedScientificField = scientificFieldRepository.save(scientificField);
 
         assertThat(savedScientificField).isNotNull();
-        assertThat(savedScientificField.getId()).isGreaterThan(0);
+        assertThat(savedScientificField.getId()).isPositive();
         assertEquals(savedScientificField.getName(), scientificField.getName());
     }
 
     @Test
     @DisplayName("JUnit test for find all scientific fields operation")
-    public void givenScientificFieldList_whenFindAll_thenReturnScientificFieldList() {
+     void givenScientificFieldList_whenFindAll_thenReturnScientificFieldList() {
         ScientificField scientificField1 = ScientificField.builder().name("Artificial intelligence").build();
         ScientificField scientificField2 = ScientificField.builder().name("Scientific computing applications").build();
 
@@ -53,7 +53,7 @@ public class ScientificFieldRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for find by id scientific field operation")
-    public void givenScientificFieldId_whenFindById_thenReturnScientificFieldObject() {
+     void givenScientificFieldId_whenFindById_thenReturnScientificFieldObject() {
         ScientificField savedScientificField = scientificFieldRepository.save(scientificField);
 
         ScientificField foundScientificField = scientificFieldRepository.findById(savedScientificField.getId()).get();
@@ -63,7 +63,7 @@ public class ScientificFieldRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for delete scientific field operation")
-    public void givenScientificFieldObject_whenDelete_thenRemoveScientificField() {
+     void givenScientificFieldObject_whenDelete_thenRemoveScientificField() {
         scientificFieldRepository.save(scientificField);
 
         scientificFieldRepository.deleteById(scientificField.getId());
@@ -74,7 +74,7 @@ public class ScientificFieldRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding scientific field by name")
-    public void givenScientificFieldName_whenFindByName_thenReturnScientificFieldObject() {
+     void givenScientificFieldName_whenFindByName_thenReturnScientificFieldObject() {
         scientificFieldRepository.save(scientificField);
 
         ScientificField scientificFieldDb = scientificFieldRepository.findByName("Artificial intelligence").get();
