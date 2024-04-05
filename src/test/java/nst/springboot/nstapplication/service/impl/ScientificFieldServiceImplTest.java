@@ -129,24 +129,24 @@ import static org.mockito.Mockito.times;
     }
 
     @Test
-    @DisplayName("JUnit test for partialUpdate method when successful")
-    void testPartialUpdateSuccessful() {
+    @DisplayName("JUnit test for partialUpdate method when updating name")
+    void testPartialUpdateName() {
         Long scientificFieldId = 1L;
-        String updatedName = "Updated Name";
+        String updatedName = "Updated Scientific Field Name";
         Map<String, String> updates = new HashMap<>();
         updates.put("name", updatedName);
 
         ScientificField scientificField = new ScientificField();
         scientificField.setId(scientificFieldId);
-        scientificField.setName("Initial Name");
+        scientificField.setName("Initial Scientific Field Name");
 
         ScientificField savedScientificField = new ScientificField();
         savedScientificField.setId(scientificFieldId);
         savedScientificField.setName(updatedName);
 
-        ScientificFieldDto scientificFieldDto = new ScientificFieldDto();
-        scientificFieldDto.setId(scientificFieldId);
-        scientificFieldDto.setName(updatedName);
+        ScientificFieldDto expectedDto = new ScientificFieldDto();
+        expectedDto.setId(scientificFieldId);
+        expectedDto.setName(updatedName);
 
         when(scientificFieldRepository.findById(scientificFieldId)).thenReturn(Optional.of(scientificField));
         when(scientificFieldRepository.save(any(ScientificField.class))).thenAnswer(invocation -> {
@@ -154,12 +154,12 @@ import static org.mockito.Mockito.times;
             argument.setName(updatedName);
             return savedScientificField;
         });
-        when(scientificFieldConverter.toDto(any(ScientificField.class))).thenReturn(scientificFieldDto);
+        when(scientificFieldConverter.toDto(any(ScientificField.class))).thenReturn(expectedDto);
 
         ScientificFieldDto result = scientificFieldService.partialUpdate(scientificFieldId, updates);
 
         assertNotNull(result);
-        assertEquals(scientificFieldDto, result);
+        assertEquals(expectedDto, result);
         verify(scientificFieldRepository, times(1)).findById(scientificFieldId);
         verify(scientificFieldRepository, times(1)).save(any(ScientificField.class));
         verify(scientificFieldConverter, times(1)).toDto(any(ScientificField.class));
