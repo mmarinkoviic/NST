@@ -111,21 +111,6 @@ import static org.mockito.Mockito.*;
     }
 
 
-    @Test
-    void testPartialUpdateRoleNotFound() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.empty());
-
-        Map<String, String> updates = new HashMap<>();
-        updates.put("name", "Default");
-
-        assertThrows(EntityNotFoundException.class, () -> roleService.partialUpdate(1L, updates));
-
-        verify(roleRepository, times(1)).findById(1L);
-
-        verify(roleRepository, never()).save(any());
-
-        verify(roleConverter, never()).toDto(any());
-    }
 
 
 

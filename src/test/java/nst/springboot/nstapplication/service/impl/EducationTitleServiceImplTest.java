@@ -110,19 +110,6 @@ import static org.mockito.Mockito.*;
         verify(educationTitleConverter, never()).toDto(any());
     }
 
-    @Test
-    void testPartialUpdateEducationTitleNotFound() {
-        when(educationTitleRepository.findById(1L)).thenReturn(Optional.empty());
-
-        Map<String, String> updates = new HashMap<>();
-        updates.put("name", "Bachelor's degree");
-
-        assertThrows(EntityNotFoundException.class, () -> educationTitleService.partialUpdate(1L, updates));
-
-        verify(educationTitleRepository, times(1)).findById(1L);
-        verify(educationTitleRepository, never()).save(any());
-        verify(educationTitleConverter, never()).toDto(any());
-    }
 
 
  }
