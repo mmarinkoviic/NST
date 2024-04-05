@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest
-public class MemberRepositoryTest {
+ class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -38,17 +38,17 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save member operation")
-    public void givenMemberObject_whenSave_thenReturnSaveMember(){
+     void givenMemberObject_whenSave_thenReturnSaveMember(){
 
         Member saveMember = memberRepository.save(member);
 
         assertThat(saveMember).isNotNull();
-        assertThat(saveMember.getId()).isGreaterThan(0);
+        assertThat(saveMember.getId()).isPositive();
         assertEquals(member.getFirstname(), saveMember.getFirstname());
     }
     @Test
     @DisplayName("JUnit test for find all members operation")
-    public void givenMemberList_whenFindAll_thenMemberList(){
+     void givenMemberList_whenFindAll_thenMemberList(){
         Member member1 = Member.builder()
                 .firstname("Jelena")
                 .lastname("Repac")
@@ -80,7 +80,7 @@ public class MemberRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id member operation")
-    public void givenMemberId_whenFindById_thenReturnMemberObject(){
+     void givenMemberId_whenFindById_thenReturnMemberObject(){
         Member savedMember = memberRepository.save(member);
 
         Member findMember = memberRepository.findById(savedMember.getId()).get();
@@ -89,7 +89,7 @@ public class MemberRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for finding all members by department id")
-    public void givenDepartmentId_whenFindAllByDepartmentId_thenReturnMemberList(){
+     void givenDepartmentId_whenFindAllByDepartmentId_thenReturnMemberList(){
         memberRepository.save(member);
 
         List<Member> result = memberRepository.findAllByDepartmentId(member.getDepartment().getId());
@@ -98,7 +98,7 @@ public class MemberRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete member operation")
-    public void givenMemberObject_whenDelete_thenRemoveMember() {
+     void givenMemberObject_whenDelete_thenRemoveMember() {
         memberRepository.save(member);
 
         memberRepository.deleteById(member.getId());
@@ -108,7 +108,7 @@ public class MemberRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for finding member by firstname and lastname")
-    public void givenMemberNameAndLastname_whenFindByNameAndLastname_thenReturnMemberObject(){
+     void givenMemberNameAndLastname_whenFindByNameAndLastname_thenReturnMemberObject(){
         memberRepository.save(member);
 
         Member memberDb = memberRepository.findByFirstnameAndLastname("Jelena", "Repac").get();

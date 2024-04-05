@@ -203,7 +203,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDto> getAll() {
         List<MemberDto> memberDtoList =memberRepository
                                         .findAll()
-                                        .stream().map(entity -> memberConverter.toDto((Member) entity))
+                                        .stream().map(entity -> memberConverter.toDto( entity))
                                         .collect(Collectors.toList());
         if(memberDtoList.isEmpty()){
             throw new EmptyResponseException("There are no members in the database!");
@@ -213,7 +213,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDto> getAllByDepartmentId(Long id) {
         List<MemberDto> memberDtoList=memberRepository
                                         .findAllByDepartmentId(id)
-                                        .stream().map(entity -> memberConverter.toDto((Member) entity))
+                                        .stream().map(entity -> memberConverter.toDto(entity))
                                         .collect(Collectors.toList());
         if(memberDtoList.isEmpty()){
             throw new EmptyResponseException("There are no members for that department!");

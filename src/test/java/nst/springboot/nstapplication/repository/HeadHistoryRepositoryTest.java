@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
-public class HeadHistoryRepositoryTest {
+ class HeadHistoryRepositoryTest {
 
     @Autowired
     private HeadHistoryRepository headHistoryRepository;
@@ -45,7 +45,7 @@ public class HeadHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save head history operation")
-    public void givenHeadHistoryObject_whenSave_thenReturnSaveHeadHistory(){
+     void givenHeadHistoryObject_whenSave_thenReturnSaveHeadHistory(){
 
         HeadHistory savedHeadHistory = headHistoryRepository.save(headHistory);
 
@@ -54,7 +54,7 @@ public class HeadHistoryRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find all head histories operation")
-    public void givenHeadHistoryList_whenFindAll_thenHeadHistoryList(){
+     void givenHeadHistoryList_whenFindAll_thenHeadHistoryList(){
 
         Department department = Department.builder()
                 .name("Katedra za informacione tehnologije")
@@ -90,7 +90,7 @@ public class HeadHistoryRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id head history operation")
-    public void givenHeadHistoryId_whenFindById_thenReturnHeadHistoryIdObject(){
+     void givenHeadHistoryId_whenFindById_thenReturnHeadHistoryIdObject(){
         HeadHistory savedHeadHistory = headHistoryRepository.save(headHistory);
 
         HeadHistory findHeadHistory = headHistoryRepository.findById(savedHeadHistory.getId()).get();
@@ -99,7 +99,7 @@ public class HeadHistoryRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete head history operation")
-    public void givenHeadHistoryObject_whenDelete_thenRemoveHeadHistory() {
+     void givenHeadHistoryObject_whenDelete_thenRemoveHeadHistory() {
         headHistoryRepository.save(headHistory);
 
         headHistoryRepository.deleteById(headHistory.getId());
@@ -110,7 +110,7 @@ public class HeadHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding current head history by member id")
-    public void givenMemberId_whenFindCurrentByMemberId_thenReturnHeadHistoryObject(){
+     void givenMemberId_whenFindCurrentByMemberId_thenReturnHeadHistoryObject(){
 
         //end date is null, sending member id
 
@@ -150,7 +150,7 @@ public class HeadHistoryRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding current head history by department id")
-    public void givenMemberId_whenFindCurrentHeadByDepartmentId_thenReturnHeadHistoryObject(){
+     void givenMemberId_whenFindCurrentHeadByDepartmentId_thenReturnHeadHistoryObject(){
 
         //end date is null, sending department id
 
@@ -190,7 +190,7 @@ public class HeadHistoryRepositoryTest {
 
     @Test
     @DisplayName("Test for finding head histories by department id and ordering by date")
-    public void givenDepartmentId_whenFindByDepartmentIdOrderByDate_thenReturnHeadHistoryList() {
+     void givenDepartmentId_whenFindByDepartmentIdOrderByDate_thenReturnHeadHistoryList() {
 
         Department department = Department.builder()
                 .name("Katedra za informacione tehnologije")
@@ -221,7 +221,7 @@ public class HeadHistoryRepositoryTest {
         List<HeadHistory> headHistoryList = headHistoryRepository.findByDepartmentIdOrderByDate(department.getId());
 
         assertThat(headHistoryList).isNotNull();
-        assertThat(headHistoryList.size()).isGreaterThanOrEqualTo(1);
+        assertThat(headHistoryList.size()).isPositive();
 
         LocalDate previousStartDate = LocalDate.now();
         for (HeadHistory headHistory : headHistoryList) {

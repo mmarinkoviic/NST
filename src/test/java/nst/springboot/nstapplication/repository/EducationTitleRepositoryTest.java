@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class EducationTitleRepositoryTest {
+ class EducationTitleRepositoryTest {
 
 
     @Autowired
@@ -30,17 +30,17 @@ public class EducationTitleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for save education title operation")
-    public void givenEducationTitleObject_whenSave_thenReturnSaveEducationTitle(){
+     void givenEducationTitleObject_whenSave_thenReturnSaveEducationTitle(){
 
         EducationTitle savedEducationTitle = educationTitleRepository.save(educationTitle);
 
         assertThat(savedEducationTitle).isNotNull();
-        assertThat(savedEducationTitle.getId()).isGreaterThan(0);
+        assertThat(savedEducationTitle.getId()).isPositive();
         assertEquals(savedEducationTitle.getName(), educationTitle.getName());
     }
     @Test
     @DisplayName("JUnit test for find all education title operation")
-    public void givenEducationTitleList_whenFindAll_thenEducationTitleList(){
+     void givenEducationTitleList_whenFindAll_thenEducationTitleList(){
         EducationTitle educationTitle1= EducationTitle.builder().name("Associate degree").build();
         EducationTitle educationTitle2= EducationTitle.builder().name("Bachelor's degree").build();
 
@@ -55,7 +55,7 @@ public class EducationTitleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for find by id education title operation")
-    public void givenEducationTitleId_whenFindById_thenReturnEducationTitleIdObject(){
+     void givenEducationTitleId_whenFindById_thenReturnEducationTitleIdObject(){
         EducationTitle savedEducationTitle = educationTitleRepository.save(educationTitle);
 
         EducationTitle findEduTitle = educationTitleRepository.findById(savedEducationTitle.getId()).get();
@@ -64,7 +64,7 @@ public class EducationTitleRepositoryTest {
     }
     @Test
     @DisplayName("JUnit test for delete education title operation")
-    public void givenEducationTitleObject_whenDelete_thenRemoveEducationTitle() {
+     void givenEducationTitleObject_whenDelete_thenRemoveEducationTitle() {
         educationTitleRepository.save(educationTitle);
 
         educationTitleRepository.deleteById(educationTitle.getId());
@@ -75,7 +75,7 @@ public class EducationTitleRepositoryTest {
 
     @Test
     @DisplayName("JUnit test for finding education title by name")
-    public void givenEducationTitleName_whenFindByName_thenReturnEducationTitleObject(){
+     void givenEducationTitleName_whenFindByName_thenReturnEducationTitleObject(){
         educationTitleRepository.save(educationTitle);
 
         EducationTitle educationTitleDb = educationTitleRepository.findByName("Associate degree").get();

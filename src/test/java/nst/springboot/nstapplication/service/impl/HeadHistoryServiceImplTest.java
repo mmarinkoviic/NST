@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class HeadHistoryServiceImplTest
+ class HeadHistoryServiceImplTest
 {
     @Mock
     private HeadHistoryRepository headHistoryRepository;

@@ -17,34 +17,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GlobalExceptionHandlerTest {
+ class GlobalExceptionHandlerTest {
 
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
 
     @Test
-    public void testHandleEntityNotFoundException() {
+     void testHandleEntityNotFoundException() {
         EntityNotFoundException exception = new EntityNotFoundException("Entity not found");
         MyErrorDetails errorDetails = globalExceptionHandler.handleEntityNotFoundException(exception);
         assertEquals("Entity not found", errorDetails.getErrorMessage());
     }
 
     @Test
-    public void testHandleIllegalArgumentException() {
+     void testHandleIllegalArgumentException() {
         IllegalArgumentException exception = new IllegalArgumentException("Illegal argument");
         MyErrorDetails errorDetails = globalExceptionHandler.handleIllegalArgumentException(exception);
         assertEquals("Illegal argument", errorDetails.getErrorMessage());
     }
 
     @Test
-    public void testHandleEmptyResponseException() {
+     void testHandleEmptyResponseException() {
         EmptyResponseException exception = new EmptyResponseException("Empty response");
         MyErrorDetails errorDetails = globalExceptionHandler.handleEmptyResponseException(exception);
         assertEquals("Empty response", errorDetails.getErrorMessage());
     }
 
     @Test
-    public void testHandleEntityAlreadyExistsException() {
+     void testHandleEntityAlreadyExistsException() {
         EntityAlreadyExistsException exception = new EntityAlreadyExistsException("Entity already exists");
         MyErrorDetails errorDetails = globalExceptionHandler.handleEntityNotFoundException(exception);
         assertEquals("Entity already exists", errorDetails.getErrorMessage());
@@ -52,7 +52,7 @@ public class GlobalExceptionHandlerTest {
 
 
     @Test
-    public void testHandleMethodArgumentNotValid() {
+     void testHandleMethodArgumentNotValid() {
         MethodArgumentNotValidException exception = mock(MethodArgumentNotValidException.class);
         BindingResult bindingResult = mock(BindingResult.class);
         WebRequest request = mock(WebRequest.class);
