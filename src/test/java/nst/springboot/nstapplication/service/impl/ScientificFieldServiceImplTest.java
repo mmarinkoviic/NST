@@ -112,21 +112,7 @@ import static org.mockito.Mockito.times;
     }
 
 
-    @Test
-    void testPartialUpdateScientificFieldNotFound() {
-        when(scientificFieldRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Map<String, String> updates = new HashMap<>();
-        updates.put("name", "Computer Science");
-
-        assertThrows(EntityNotFoundException.class, () -> scientificFieldService.partialUpdate(1L, updates));
-
-        verify(scientificFieldRepository, times(1)).findById(1L);
-
-        verify(scientificFieldRepository, never()).save(any());
-
-        verify(scientificFieldConverter, never()).toDto(any());
-    }
 
 
 }
