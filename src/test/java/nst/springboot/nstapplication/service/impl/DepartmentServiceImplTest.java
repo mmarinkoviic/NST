@@ -408,4 +408,58 @@ import static org.mockito.Mockito.*;
 
         assertThrows(EntityNotFoundException.class, () -> departmentService.getActiveHeadForDepartment(departmentId));
     }
+
+    @Test
+    void testGetActiveSecretaryForDepartment_ActiveSecretaryWithEndDate() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        MemberDto expectedMemberDto = new MemberDto();
+        SecretaryHistory activeSecretary = new SecretaryHistory();
+        activeSecretary.setMember(new Member());
+        activeSecretary.setStartDate(LocalDate.now().minusDays(1));
+        activeSecretary.setEndDate(LocalDate.now().plusDays(1));
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(secretaryHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList(activeSecretary));
+        when(memberConverter.toDto(activeSecretary.getMember())).thenReturn(expectedMemberDto);
+
+        MemberDto result = departmentService.getActiveSecretaryForDepartment(departmentId);
+
+        assertEquals(expectedMemberDto, result);
+    }
+
+    @Test
+    void testGetActiveSecretaryForDepartment_ActiveSecretaryWithoutEndDate() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        MemberDto expectedMemberDto = new MemberDto();
+        SecretaryHistory activeSecretary = new SecretaryHistory();
+        activeSecretary.setMember(new Member());
+        activeSecretary.setStartDate(LocalDate.now().minusDays(1));
+        activeSecretary.setEndDate(null);
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(secretaryHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList(activeSecretary));
+        when(memberConverter.toDto(activeSecretary.getMember())).thenReturn(expectedMemberDto);
+
+        MemberDto result = departmentService.getActiveSecretaryForDepartment(departmentId);
+
+        assertEquals(expectedMemberDto, result);
+    }
+
+    @Test
+    void testGetActiveSecretaryForDepartment_NoActiveSecretary() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(secretaryHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList());
+
+        assertThrows(EntityNotFoundException.class, () -> departmentService.getActiveSecretaryForDepartment(departmentId));
+    }
 }
