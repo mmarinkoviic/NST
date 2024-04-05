@@ -63,15 +63,12 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         if (existingEducationTitle.isPresent()) {
             EducationTitle educationTitle = existingEducationTitle.get();
             updates.forEach((key, value) -> {
-                switch (key) {
-                    case "name":
-                        educationTitle.setName(value);
-                        break;
-
+                if ("name".equals(key)) {
+                    educationTitle.setName(value);
                 }
+
             });
             EducationTitle savedEducationTitle= educationTitleRepository.save(educationTitle);
-            System.out.println(savedEducationTitle.getName());
             return educationTitleConverter.toDto(savedEducationTitle);
         } else {
             throw new EntityNotFoundException("Education title not found with id: " + id);

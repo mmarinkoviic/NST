@@ -59,11 +59,8 @@ public class ScientificFieldServiceImpl implements ScientificFieldService {
         if (existingScientificField.isPresent()) {
             ScientificField scientificField = existingScientificField.get();
             updates.forEach((key, value) -> {
-                switch (key) {
-                    case "name":
-                        scientificField.setName(value);
-                        break;
-
+                if ("name".equals(key)) {
+                    scientificField.setName(value);
                 }
             });
             scientificFieldRepository.save(scientificField);

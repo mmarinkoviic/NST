@@ -203,7 +203,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDto> getAll() {
         List<MemberDto> memberDtoList =memberRepository
                                         .findAll()
-                                        .stream().map(entity -> memberConverter.toDto( entity))
+                                        .stream().map(memberConverter::toDto)
                                         .collect(Collectors.toList());
         if(memberDtoList.isEmpty()){
             throw new EmptyResponseException("There are no members in the database!");
@@ -213,7 +213,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDto> getAllByDepartmentId(Long id) {
         List<MemberDto> memberDtoList=memberRepository
                                         .findAllByDepartmentId(id)
-                                        .stream().map(entity -> memberConverter.toDto(entity))
+                                        .stream().map(memberConverter::toDto)
                                         .collect(Collectors.toList());
         if(memberDtoList.isEmpty()){
             throw new EmptyResponseException("There are no members for that department!");
@@ -408,24 +408,22 @@ public class MemberServiceImpl implements MemberService {
     private void handleRoleUpdate(Member existingMember, RoleDto role) {
         Optional<SecretaryHistory> existingHistory=secretaryHistoryRepository.findCurrentByMemberId(existingMember.getId(), LocalDate.now());
         Optional<HeadHistory> existingHistoryHead=headHistoryRepository.findCurrentByMemberId(existingMember.getId());
-        switch (existingMember.getRole().getName()){
-            case(ConstantsCustom.SECRETARY):
-                if(existingHistory.isPresent()){
-                    existingHistory.get().setEndDate(LocalDate.now());
-                    secretaryHistoryRepository.save(existingHistory.get());
-                }
-                break;
-            case(ConstantsCustom.HEAD):
-                if(existingHistoryHead.isPresent()){
-                    existingHistoryHead.get().setEndDate(LocalDate.now());
-                    headHistoryRepository.save(existingHistoryHead.get());
-                }
-                break;
+        String roleName = existingMember.getRole().getName();
+        if (ConstantsCustom.SECRETARY.equals(roleName)) {
+            if (existingHistory.isPresent()) {
+                existingHistory.get().setEndDate(LocalDate.now());
+                secretaryHistoryRepository.save(existingHistory.get());
+            }
+        } else if (ConstantsCustom.HEAD.equals(roleName)) {
+            if (existingHistoryHead.isPresent()) {
+                existingHistoryHead.get().setEndDate(LocalDate.now());
+                headHistoryRepository.save(existingHistoryHead.get());
+            }
         }
 
-       switch (role.getName()){
+
+        switch (role.getName()){
            case(ConstantsCustom.SECRETARY):
-               System.out.println("hej");
                handleSecretaryAttributes(existingMember);
                break;
            case(ConstantsCustom.HEAD):

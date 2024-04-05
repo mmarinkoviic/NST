@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import nst.springboot.nstapplication.constants.ConstantsCustom;
 import nst.springboot.nstapplication.converter.impl.HeadHistoryConverter;
 import nst.springboot.nstapplication.converter.impl.MemberConverter;
 import nst.springboot.nstapplication.converter.impl.SecretaryHistoryConverter;
@@ -109,7 +110,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         MemberDto memberDtoEndNull=null;
         MemberDto memberDto = null;
         if(!department.isPresent()){
-            throw new EntityNotFoundException("There is no department with id: "+id);
+            throw new EntityNotFoundException(ConstantsCustom.NO_DEPARTMENT_FIND+id);
         }
 
       else{
@@ -124,7 +125,6 @@ public class DepartmentServiceImpl implements DepartmentService {
               }
               if(secretaryHistory.getEndDate()==null &&
                       (secretaryHistory.getStartDate().isBefore(currentDate) || secretaryHistory.getStartDate().isEqual(currentDate)) ){
-                  System.out.println(secretaryHistory.getStartDate());
                   memberDtoEndNull= memberConverter.toDto(secretaryHistory.getMember());
               }
           }
@@ -145,7 +145,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         MemberDto memberDto=null;
         MemberDto memberDtoEndNull=null;
         if(!department.isPresent()){
-            throw new EntityNotFoundException("There is no department with id: "+id);
+            throw new EntityNotFoundException(ConstantsCustom.NO_DEPARTMENT_FIND +id);
         }
 
         else{
@@ -160,7 +160,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                 }
                 if(headHistory.getEndDate()==null &&
                         (headHistory.getStartDate().isBefore(currentDate) || headHistory.getStartDate().isEqual(currentDate)) ){
-                    System.out.println(headHistory.getStartDate());
                     memberDtoEndNull= memberConverter.toDto(headHistory.getMember());
                 }
             }
@@ -178,7 +177,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<SecretaryHistoryDto> getSecretaryHistoryForDepartment(Long id) {
         Optional<Department> department= departmentRepository.findById(id);
         if(!department.isPresent()){
-            throw new EntityNotFoundException("There is no department with id: "+id);
+            throw new EntityNotFoundException(ConstantsCustom.NO_DEPARTMENT_FIND+id);
         }
         List<SecretaryHistory> secretaryHistoryList = secretaryHistoryRepository.findByDepartmentIdOrderByDate(id);
         if(secretaryHistoryList.isEmpty()){
@@ -191,7 +190,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<HeadHistoryDto> getHeadHistoryForDepartment(Long id) {
         Optional<Department> department= departmentRepository.findById(id);
         if(!department.isPresent()){
-            throw new EntityNotFoundException("There is no department with id: "+id);
+            throw new EntityNotFoundException(ConstantsCustom.NO_DEPARTMENT_FIND+id);
         }
         List<HeadHistory> headHistoryList = headHistoryRepository.findByDepartmentIdOrderByDate(id);
         if(headHistoryList.isEmpty()){
@@ -204,7 +203,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<MemberDto> getAllMembersByDepartmentId(Long id) {
        Optional<Department> department= departmentRepository.findById(id);
        if(!department.isPresent()){
-           throw new EntityNotFoundException("There is no department with that id!");
+           throw new EntityNotFoundException(ConstantsCustom.NO_DEPARTMENT_FIND+id);
        }
        List<Member> memberList= memberRepository.findAllByDepartmentId(id);
        if(memberList.isEmpty()){
