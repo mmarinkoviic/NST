@@ -50,22 +50,5 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    @Override
-    public RoleDto partialUpdate(Long id, Map<String, String> updates) {
-        Optional<Role> existingRole = roleRepository.findById(id);
 
-        if (existingRole.isPresent()) {
-            Role role = existingRole.get();
-            updates.forEach((key, value) -> {
-                if ("name".equals(key)) {
-                    role.setName(value);
-                }
-
-            });
-            roleRepository.save(role);
-            return roleConverter.toDto(role);
-        } else {
-            throw new EntityNotFoundException("Role not found with id: " + id);
-        }
-    }
 }

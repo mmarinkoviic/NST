@@ -40,13 +40,5 @@ public class EducationTitleController {
     }
 
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<EducationTitleDto> partialUpdate(
-            @PathVariable(name = "id") Long id,
-            @RequestBody Map<String, String> updates) {
 
-        EducationTitleDto updatedEducationTitle = educationTitleService.partialUpdate(id, updates);
-        return ResponseEntity.ok(updatedEducationTitle);
-
-    }
 }

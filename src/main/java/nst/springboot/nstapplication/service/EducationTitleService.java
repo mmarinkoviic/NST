@@ -10,6 +10,5 @@ public interface EducationTitleService {
     EducationTitleDto save(EducationTitleDto educationTitleDTO);
     List<EducationTitleDto> getAll();
     EducationTitleDto findById(Long id);
-    EducationTitleDto partialUpdate(Long id, Map<String, String> updates);
 
 }

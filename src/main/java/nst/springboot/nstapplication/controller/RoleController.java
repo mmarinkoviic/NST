@@ -40,13 +40,5 @@ public class RoleController {
         return roleService.findById(id);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<RoleDto> partialUpdate(
-            @PathVariable(name = "id") Long id,
-            @RequestBody Map<String, String> updates) {
 
-        RoleDto updatedRole = roleService.partialUpdate(id, updates);
-        return ResponseEntity.ok(updatedRole);
-
-    }
 }

@@ -127,42 +127,6 @@ import static org.mockito.Mockito.*;
         verify(roleConverter, never()).toDto(any());
     }
 
-    @Test
-    @DisplayName("JUnit test for partialUpdate method when updating name")
-    void testPartialUpdateName() {
-        Long roleId = 1L;
-        String updatedName = "Updated Role Name";
-        Map<String, String> updates = new HashMap<>();
-        updates.put("name", updatedName);
-
-        Role role = new Role();
-        role.setId(roleId);
-        role.setName("Initial Role Name");
-
-        Role savedRole = new Role();
-        savedRole.setId(roleId);
-        savedRole.setName(updatedName);
-
-        RoleDto expectedDto = new RoleDto();
-        expectedDto.setId(roleId);
-        expectedDto.setName(updatedName);
-
-        when(roleRepository.findById(roleId)).thenReturn(Optional.of(role));
-        when(roleRepository.save(any(Role.class))).thenAnswer(invocation -> {
-            Role argument = invocation.getArgument(0);
-            argument.setName(updatedName);
-            return savedRole;
-        });
-        when(roleConverter.toDto(any(Role.class))).thenReturn(expectedDto);
-
-        RoleDto result = roleService.partialUpdate(roleId, updates);
-
-        assertNotNull(result);
-        assertEquals(expectedDto, result);
-        verify(roleRepository, times(1)).findById(roleId);
-        verify(roleRepository, times(1)).save(any(Role.class));
-        verify(roleConverter, times(1)).toDto(any(Role.class));
-    }
 
 
 

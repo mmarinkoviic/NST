@@ -56,24 +56,7 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         }
     }
 
-    @Override
-    public EducationTitleDto partialUpdate(Long id, Map<String, String> updates) {
-        Optional<EducationTitle> existingEducationTitle = educationTitleRepository.findById(id);
 
-        if (existingEducationTitle.isPresent()) {
-            EducationTitle educationTitle = existingEducationTitle.get();
-            updates.forEach((key, value) -> {
-                if ("name".equals(key)) {
-                    educationTitle.setName(value);
-                }
-
-            });
-            EducationTitle savedEducationTitle= educationTitleRepository.save(educationTitle);
-            return educationTitleConverter.toDto(savedEducationTitle);
-        } else {
-            throw new EntityNotFoundException("Education title not found with id: " + id);
-        }
-    }
 
 
 }
