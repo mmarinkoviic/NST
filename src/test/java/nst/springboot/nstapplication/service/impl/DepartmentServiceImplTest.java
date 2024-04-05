@@ -24,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -351,5 +352,60 @@ import static org.mockito.Mockito.*;
 
         verify(departmentRepository, times(1)).findById(departmentId);
         verify(secretaryHistoryRepository, times(1)).findByDepartmentIdOrderByDate(departmentId);
+    }
+
+
+    @Test
+    void testGetActiveHeadForDepartment_ActiveHeadWithEndDate() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        MemberDto expectedMemberDto = new MemberDto();
+        HeadHistory activeHead = new HeadHistory();
+        activeHead.setMember(new Member());
+        activeHead.setStartDate(LocalDate.now().minusDays(1));
+        activeHead.setEndDate(LocalDate.now().plusDays(1));
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(headHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList(activeHead));
+        when(memberConverter.toDto(activeHead.getMember())).thenReturn(expectedMemberDto);
+
+        MemberDto result = departmentService.getActiveHeadForDepartment(departmentId);
+
+        assertEquals(expectedMemberDto, result);
+    }
+
+    @Test
+    void testGetActiveHeadForDepartment_ActiveHeadWithoutEndDate() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        MemberDto expectedMemberDto = new MemberDto();
+        HeadHistory activeHead = new HeadHistory();
+        activeHead.setMember(new Member());
+        activeHead.setStartDate(LocalDate.now().minusDays(1));
+        activeHead.setEndDate(null);
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(headHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList(activeHead));
+        when(memberConverter.toDto(activeHead.getMember())).thenReturn(expectedMemberDto);
+
+        MemberDto result = departmentService.getActiveHeadForDepartment(departmentId);
+
+        assertEquals(expectedMemberDto, result);
+    }
+
+    @Test
+    void testGetActiveHeadForDepartment_NoActiveHead() {
+        Long departmentId = 1L;
+        Department department = new Department();
+        department.setId(departmentId);
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+        when(headHistoryRepository.findByDepartmentId(departmentId)).thenReturn(Arrays.asList());
+
+        assertThrows(EntityNotFoundException.class, () -> departmentService.getActiveHeadForDepartment(departmentId));
     }
 }
