@@ -40,13 +40,4 @@ public class ScientificFieldController {
     }
 
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<ScientificFieldDto> partialUpdate(
-            @PathVariable(name = "id") Long id,
-            @RequestBody Map<String, String> updates) {
-
-        ScientificFieldDto updatedScientificField = scientificFieldService.partialUpdate(id, updates);
-        return ResponseEntity.ok(updatedScientificField);
-
-    }
 }

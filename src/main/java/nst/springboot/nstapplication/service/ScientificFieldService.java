@@ -9,6 +9,5 @@ public interface ScientificFieldService {
     ScientificFieldDto save(ScientificFieldDto scientificFieldDto);
     List<ScientificFieldDto> getAll();
     ScientificFieldDto findById(Long id);
-    ScientificFieldDto partialUpdate(Long id, Map<String, String> updates);
 
 }

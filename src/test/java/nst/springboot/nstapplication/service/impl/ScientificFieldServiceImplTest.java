@@ -128,41 +128,5 @@ import static org.mockito.Mockito.times;
         verify(scientificFieldConverter, never()).toDto(any());
     }
 
-    @Test
-    @DisplayName("JUnit test for partialUpdate method when updating name")
-    void testPartialUpdateName() {
-        Long scientificFieldId = 1L;
-        String updatedName = "Updated Scientific Field Name";
-        Map<String, String> updates = new HashMap<>();
-        updates.put("name", updatedName);
-
-        ScientificField scientificField = new ScientificField();
-        scientificField.setId(scientificFieldId);
-        scientificField.setName("Initial Scientific Field Name");
-
-        ScientificField savedScientificField = new ScientificField();
-        savedScientificField.setId(scientificFieldId);
-        savedScientificField.setName(updatedName);
-
-        ScientificFieldDto expectedDto = new ScientificFieldDto();
-        expectedDto.setId(scientificFieldId);
-        expectedDto.setName(updatedName);
-
-        when(scientificFieldRepository.findById(scientificFieldId)).thenReturn(Optional.of(scientificField));
-        when(scientificFieldRepository.save(any(ScientificField.class))).thenAnswer(invocation -> {
-            ScientificField argument = invocation.getArgument(0);
-            argument.setName(updatedName);
-            return savedScientificField;
-        });
-        when(scientificFieldConverter.toDto(any(ScientificField.class))).thenReturn(expectedDto);
-
-        ScientificFieldDto result = scientificFieldService.partialUpdate(scientificFieldId, updates);
-
-        assertNotNull(result);
-        assertEquals(expectedDto, result);
-        verify(scientificFieldRepository, times(1)).findById(scientificFieldId);
-        verify(scientificFieldRepository, times(1)).save(any(ScientificField.class));
-        verify(scientificFieldConverter, times(1)).toDto(any(ScientificField.class));
-    }
 
 }

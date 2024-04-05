@@ -71,19 +71,7 @@ import static org.mockito.Mockito.when;
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Artificial intelligence"));
     }
 
-    @Test
-    @DisplayName("Test for partial updating a scientific field")
-     void testPartialUpdate() throws Exception {
-        ScientificFieldDto updatedScientificFieldDto = ScientificFieldDto.builder().id(1L).name("Artificial intelligence").build();
 
-        when(scientificFieldService.partialUpdate(1L, getUpdates())).thenReturn(updatedScientificFieldDto);
-
-        mockMvc.perform(MockMvcRequestBuilders.patch("/scientificField/{id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\": \"Artificial intelligence\"}"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Artificial intelligence"));
-    }
 
     private Map<String, String> getUpdates() {
         Map<String, String> updates = new HashMap<>();

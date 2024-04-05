@@ -52,22 +52,6 @@ public class ScientificFieldServiceImpl implements ScientificFieldService {
         }
     }
 
-    @Override
-    public ScientificFieldDto partialUpdate(Long id, Map<String, String> updates) {
-        Optional<ScientificField> existingScientificField = scientificFieldRepository.findById(id);
 
-        if (existingScientificField.isPresent()) {
-            ScientificField scientificField = existingScientificField.get();
-            updates.forEach((key, value) -> {
-                if ("name".equals(key)) {
-                    scientificField.setName(value);
-                }
-            });
-            scientificFieldRepository.save(scientificField);
-            return scientificFieldConverter.toDto(scientificField);
-        } else {
-            throw new EntityNotFoundException("Scientific field not found with id: " + id);
-        }
-    }
 
 }
